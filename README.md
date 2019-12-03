@@ -17,3 +17,9 @@
  đang chơi người dùng cũng có thể đổi chơi hình khác , hệ thống sẽ hỏi người dùng muốn lưu game hay không
  Chế độ tự động : sau khi người dùng chơi ở mức dễ pass hệ thống tự động tính điểm và nhảy đến chế độ trung bình , khó sau đố thông báo 
  người dùng đã hoàn thành với bức ảnh này ( có thể cho chạy qua bức khác nếu được) 
+
+- Phân công công việc:
+  Các mục chính:
+  + Duy : Xáo hình , snap hình vào ô gần nhất (mục 1,3), báo thắng, tính điểm
+  + Đồng : Select hình( hoặc tạo một của sổ mới có loạt hình để chọn) , đồng hồ bấm giờ, xử lý hiệu ứng thằng thua cuộc 
+  + Hải : Store game, xử lý tinh chỉnh giao diện, tạo button để điều chỉnh đường đi
