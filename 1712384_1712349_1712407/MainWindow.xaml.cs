@@ -61,7 +61,6 @@ namespace _1712384_1712349_1712407
                    new Uri(screen.FileName, UriKind.Absolute)),
                     numCut = 3
                 };
-
                 CropImage(Game);
             }
         }
@@ -194,6 +193,17 @@ namespace _1712384_1712349_1712407
             int w = image.cropWidth;
             int h = image.cropHeight;
             var source = image.Source;
+
+            //Clear những cái mảnh Image puzzle đã có trước đó
+            if(listImages.Count>0)
+            {
+                while (listImages.Count > 0)
+                {
+                    listImages.Remove(listImages[listImages.Count - 1]);
+                }
+            }
+            
+
             for (int i = 0; i < num; i++)
             {
                 for (int j = 0; j < num; j++)
@@ -247,6 +257,7 @@ namespace _1712384_1712349_1712407
                 }
                 Debug.WriteLine("");
             }
+
             CountDown();
         }
         private void CropImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -308,9 +319,7 @@ namespace _1712384_1712349_1712407
                    new Uri(screen.SourceData, UriKind.Relative)),
                     numCut = 3
                 };
-                
                 CropImage(Game1);
-               
             }
             else
             {
