@@ -42,6 +42,13 @@ namespace _1712384_1712349_1712407
 
         }
 
+
+        /// <summary>
+        /// Mở hộp thoại dialog để chọn ảnh trên máy tính người chơi
+        /// Gọi hàm CropImage để cắt ảnh
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Play_Click(object sender, RoutedEventArgs e)
         {
             var screen = new OpenFileDialog();
@@ -58,6 +65,10 @@ namespace _1712384_1712349_1712407
             }
         }
 
+        /// <summary>
+        /// Cắt ảnh
+        /// </summary>
+        /// <param name="image"></param>
         private void CropImage(playImage image)
         {
             _games.Add(image);
@@ -178,6 +189,11 @@ namespace _1712384_1712349_1712407
             }
         }
 
+        /// <summary>
+        /// Mở hộp thoại để người dùng chọn ảnh(đã chuẩn bị sẵn)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Select_Click(object sender, RoutedEventArgs e)
         {
             var screen = new SelectDialog();

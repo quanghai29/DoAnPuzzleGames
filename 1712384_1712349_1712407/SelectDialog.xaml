@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_1712384_1712349_1712407"
         mc:Ignorable="d"
-        Title="SelectDialog" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="SelectDialog" Height="450" Width="800" Loaded="Window_Loaded"
+        ResizeMode="NoResize">
     <Window.Resources>
         <local:RelativeToAbsolutePathConverter x:Key="converter"/>
     </Window.Resources>
-    <Grid>
+    <Canvas>
         <ListView Name="pictureComboBox" PreviewMouseLeftButtonUp="pictureComboBox_PreviewMouseLeftButtonUp"
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  Canvas.Left="102" Canvas.Top="20" Height="419" VerticalAlignment="Top">
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="355" VerticalAlignment="Top" Width="792">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel Orientation="Horizontal" />
@@ -29,6 +29,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button Content="OK" Width="80" Height="25" Click="OkButon_Click"/>
-    </Grid>
+        <Button Content="OK" Width="80" Height="25" Click="OkButon_Click" Canvas.Left="360" Canvas.Top="360"/>
+    </Canvas>
 </Window>
