@@ -32,6 +32,10 @@ namespace _1712384_1712349_1712407
         Point _lastPosition;
         Image _selectedBitmap = null;
         BindingList<ImageOperation> _games = new BindingList<ImageOperation>();
+
+        List<Image> listImages = new List<Image>();
+        int[,] _puzzle = new int[3, 3];
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
            
@@ -47,7 +51,7 @@ namespace _1712384_1712349_1712407
                 {
                     Source = new BitmapImage(
                    new Uri(screen.FileName, UriKind.Absolute)),
-                    numCut = 4
+                    numCut = 3
                 };
                
                 CropImage(Game);
@@ -74,15 +78,60 @@ namespace _1712384_1712349_1712407
                     cropImage.Width = w;
                     cropImage.Height = h;
                     cropImage.Source = cropbitmap;
-                    table.Children.Add(cropImage);
-                    Canvas.SetLeft(cropImage, j * (w + 2));
-                    Canvas.SetTop(cropImage, i * (h + 2));
-
-                    cropImage.PreviewMouseLeftButtonUp += CropImage_PreviewMouseLeftButtonUp;
-                    cropImage.MouseLeftButtonDown += CropImage_MouseLeftButtonDown;
-
+                    listImages.Add(cropImage);
 
                     cropImage.Tag = new Tuple<int, int>(i, j);
+                }
+            }
+
+
+            // lưu hình trống
+            var cropImage1 = new Image();
+
+            cropImage1.Width = w;
+            cropImage1.Height = h;
+
+            listImages.Add(cropImage1);
+
+            List<int> Indexes = new List<int>(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 9 });
+            Random r = new Random();
+            int k = 0;
+            for (int i = 0; i < num; i++)
+            {
+                for (int j = 0; j < num; j++)
+                {
+                    k = Indexes[r.Next(0, Indexes.Count)];
+                    Indexes.Remove(k);
+
+                    table.Children.Add(listImages[k]);
+                    Canvas.SetLeft(listImages[k], j * (w + 2));
+                    Canvas.SetTop(listImages[k], i * (h + 2));
+
+                    _puzzle[j, i] = k;
+
+
+                    listImages[k].PreviewMouseLeftButtonUp += CropImage_PreviewMouseLeftButtonUp;
+                    listImages[k].MouseLeftButtonDown += CropImage_MouseLeftButtonDown;
+
+                    //var rect = new Int32Rect(j * w, i * h, w, h);
+                    //var cropbitmap = new CroppedBitmap(source, rect);
+
+                    //var cropImage = new Image();
+
+                    //cropImage.Width = w;
+                    //cropImage.Height = h;
+                    //cropImage.Source = cropbitmap;
+                    //table.Children.Add(cropImage);
+                    //Canvas.SetLeft(cropImage, j * (w + 2));
+                    //Canvas.SetTop(cropImage, i * (h + 2));
+
+                    //cropImage.PreviewMouseLeftButtonUp += CropImage_PreviewMouseLeftButtonUp;
+                    //cropImage.MouseLeftButtonDown += CropImage_MouseLeftButtonDown;
+
+
+                    //cropImage.Tag = new Tuple<int, int>(i, j);
+
+
                 }
             }
         }
