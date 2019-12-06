@@ -187,7 +187,7 @@ namespace _1712384_1712349_1712407
                 {
                     Source = new BitmapImage(
                    new Uri(screen.SourceData, UriKind.Relative)),
-                    numCut = 4
+                    numCut = 3
                 };
                 
                 CropImage(Game1);
