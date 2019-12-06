@@ -89,7 +89,10 @@ namespace _1712384_1712349_1712407
         private void pictureComboBox_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             var item = (sender as ListView).SelectedIndex;
-            SourceData = _picture[item].Source;
+            if(item>=0)
+            {
+                SourceData = _picture[item].Source;
+            }
             //MessageBox.Show(_picture[item].Source);
             //MessageBox.Show(item.ToString());
             //if (item!=null)
