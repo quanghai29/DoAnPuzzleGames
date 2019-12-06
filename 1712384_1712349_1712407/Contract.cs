@@ -23,8 +23,6 @@ namespace _1712384_1712349_1712407
 
         public int numCut;// số mảnh sẽ cắt ra 
 
-
-
         //-------Method
        
     }
