@@ -43,44 +43,49 @@ namespace _1712384_1712349_1712407
             var screen = new OpenFileDialog();
             if (screen.ShowDialog() == true)
             {
-                var Game1 = new playImage()
+                var Game = new playImage()
                 {
                     Source = new BitmapImage(
                    new Uri(screen.FileName, UriKind.Absolute)),
                     numCut = 4
                 };
-                _games.Add(Game1);
-
-                int num = Game1.numCut;
-                int w = Game1.cropWidth;
-                int h = Game1.cropHeight;
-                var source = Game1.Source;
-                for (int i = 0; i < num; i++)
-                {
-                    for (int j = 0; j < num; j++)
-                    {
-                        var rect = new Int32Rect(j * w, i * h, w, h);
-                        var cropbitmap = new CroppedBitmap(source, rect);
-
-                        var cropImage = new Image();
-
-                        cropImage.Width = w;
-                        cropImage.Height = h;
-                        cropImage.Source = cropbitmap;
-                        table.Children.Add(cropImage);
-                        Canvas.SetLeft(cropImage, j * (w + 2));
-                        Canvas.SetTop(cropImage, i * (h + 2));
-
-                        cropImage.PreviewMouseLeftButtonUp += CropImage_PreviewMouseLeftButtonUp;
-                        cropImage.MouseLeftButtonDown += CropImage_MouseLeftButtonDown;
-
-
-                        cropImage.Tag = new Tuple<int, int>(i, j);
-                    }
-                }
+               
+                CropImage(Game);
             }
         }
 
+        private void CropImage(playImage image)
+        {
+            _games.Add(image);
+
+            int num = image.numCut;
+            int w = image.cropWidth;
+            int h = image.cropHeight;
+            var source = image.Source;
+            for (int i = 0; i < num; i++)
+            {
+                for (int j = 0; j < num; j++)
+                {
+                    var rect = new Int32Rect(j * w, i * h, w, h);
+                    var cropbitmap = new CroppedBitmap(source, rect);
+
+                    var cropImage = new Image();
+
+                    cropImage.Width = w;
+                    cropImage.Height = h;
+                    cropImage.Source = cropbitmap;
+                    table.Children.Add(cropImage);
+                    Canvas.SetLeft(cropImage, j * (w + 2));
+                    Canvas.SetTop(cropImage, i * (h + 2));
+
+                    cropImage.PreviewMouseLeftButtonUp += CropImage_PreviewMouseLeftButtonUp;
+                    cropImage.MouseLeftButtonDown += CropImage_MouseLeftButtonDown;
+
+
+                    cropImage.Tag = new Tuple<int, int>(i, j);
+                }
+            }
+        }
         private void CropImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _isDragging = true;
@@ -123,5 +128,28 @@ namespace _1712384_1712349_1712407
                 _lastPosition = position;
             }
         }
+
+        private void Select_Click(object sender, RoutedEventArgs e)
+        {
+            var screen = new SelectDialog();
+            if (screen.ShowDialog() == true)
+            {
+                var Game1 = new playImage()
+                {
+                    Source = new BitmapImage(
+                   new Uri(screen.SourceData, UriKind.Relative)),
+                    numCut = 4
+                };
+                
+                CropImage(Game1);
+               
+            }
+            else
+            {
+                //MessageBox.Show("Failed");
+            }
+            
+        }
+
     }
 }

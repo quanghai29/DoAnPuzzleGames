@@ -1,0 +1,34 @@
+﻿<Window x:Class="_1712384_1712349_1712407.SelectDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_1712384_1712349_1712407"
+        mc:Ignorable="d"
+        Title="SelectDialog" Height="450" Width="800" Loaded="Window_Loaded">
+    <Window.Resources>
+        <local:RelativeToAbsolutePathConverter x:Key="converter"/>
+    </Window.Resources>
+    <Grid>
+        <ListView Name="pictureComboBox" PreviewMouseLeftButtonUp="pictureComboBox_PreviewMouseLeftButtonUp"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  Canvas.Left="102" Canvas.Top="20" Height="419" VerticalAlignment="Top">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Width="150" Height="150">
+                        <Image Name="image" Margin="5"  
+                               Source="{Binding Source, Converter={StaticResource converter}}" 
+                               Width="150" Height="150"
+                               RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Content="OK" Width="80" Height="25" Click="OkButon_Click"/>
+    </Grid>
+</Window>
