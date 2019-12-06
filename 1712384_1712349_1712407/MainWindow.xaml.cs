@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.IO;
 using Microsoft.Win32;
 using System.ComponentModel;
+using System.Timers;
 
 namespace _1712384_1712349_1712407
 {
@@ -145,6 +146,7 @@ namespace _1712384_1712349_1712407
 
                 }
             }
+            CountDown();
         }
         private void CropImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -216,5 +218,71 @@ namespace _1712384_1712349_1712407
             
         }
 
+        Timer timer;
+        /// <summary>
+        /// Đếm ngược thời gian
+        /// </summary>
+        private void CountDown()
+        {
+            timer = new Timer();
+            timer.Interval = 1000;
+            timer.Elapsed += Timer_Elapsed;
+            timer.Start();
+        }
+
+        int sec=650;
+        /// <summary>
+        /// Hiển thị bộ đếm thời gian sau mỗi giây trôi qua
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            sec--;
+            Dispatcher.Invoke(() =>lblTimer.Content=FormatTimer(sec));
+
+            if (sec == 0)
+            {
+                timer.Stop();
+                MessageBox.Show("You lose");
+            }
+        }
+
+        /// <summary>
+        /// Trả về chuỗi định dạng "00:00:00"
+        /// </summary>
+        /// <param name="second"></param>
+        /// <returns></returns>
+        private string FormatTimer(int second)
+        {
+            string result = "";
+            int hour = sec / 3600;
+            int min = (sec-hour*3600)/60;
+            int cpysec =(sec-hour*3600-min*60);
+
+            string h = "";
+            string m = "";
+            string s = "";
+
+            h = hour.ToString();
+            m = min.ToString();
+            s = cpysec.ToString();
+
+            if(hour<10)
+            {
+                h = "0" + h;
+            }
+            if(min<10)
+            {
+                m = "0" + m;
+            }
+            if(cpysec<10)
+            {
+                s = "0" + s;
+            }
+
+            result = h + ":" + m + ":" + s;
+            return result;
+        }
     }
 }

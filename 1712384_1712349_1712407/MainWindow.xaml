@@ -20,7 +20,7 @@
 
         <!-- Khung để chơi game -->
         <Canvas x:Name="table">
-
+          
         </Canvas>
         <Grid Grid.Column="1" Background="Black" Margin="0,0,-396,-55">
             <Grid.RowDefinitions>
@@ -37,6 +37,7 @@
                 <Canvas>
                     <Button x:Name="Play" Click="Play_Click" Width="60" Height="25" Content="Play" Canvas.Left="98" Canvas.Top="52"/>
                     <Button x:Name="Select" Content="Select from Gallery" Click="Select_Click" Width="150" Height="25" Canvas.Left="184" Canvas.Top="52"/>
+                    <Label Name="lblTimer" Width="120" Height="25" HorizontalAlignment="Center" Canvas.Left="138" Canvas.Top="113"/>
                 </Canvas>
             </StackPanel>
         </Grid>
