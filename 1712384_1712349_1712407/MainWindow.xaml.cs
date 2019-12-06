@@ -39,7 +39,7 @@ namespace _1712384_1712349_1712407
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-           
+
 
         }
 
@@ -61,10 +61,126 @@ namespace _1712384_1712349_1712407
                    new Uri(screen.FileName, UriKind.Absolute)),
                     numCut = 3
                 };
-               
+
                 CropImage(Game);
             }
         }
+
+        private int countSmallerNumber(int[,] a, int n, int x, int y)
+        {      
+            int count = 0;
+            for (int j = y + 1; j < n; j++)
+            {
+                if (a[x, j] < a[x, y] && a[y,x] != 9)
+                    count++;
+            }
+            for (int i = x + 1; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (a[i, j] < a[x, y] && a[y, x] != 9)
+                        count++;
+                }
+            }
+            return count;
+        }
+
+        //Thuật toán: https://yinyangit.wordpress.com/2010/12/11/algorithm-tim-hi%E1%BB%83u-v%E1%BB%81-bai-toan-n-puzzle-updated/
+        private Boolean CheckValid(int[,] a, int n)
+        {
+            List<int> smaller = new List<int>();
+            int N = 0;
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    smaller.Add(countSmallerNumber(a, n, j, i));
+                }
+            }
+            for (int i = 0; i < n * n - 1; i++)
+            {
+                N = N + smaller[i];
+            }
+
+            if ((n * n - 1) % 2 == 1)
+            {
+                if (N % 2 == 0)
+                    return true;
+                return false;
+            }
+            else
+            {
+                int[] T = new int[2];
+                for (int i = 0; i < n; i++)
+                {
+                    for (int j = 0; j < n; j++)
+                    {
+                        if (a[j, i] == 9)
+                        {
+                            T[0] = j; T[1] = i;
+                            break;
+                        }
+                    }
+                }
+
+                if (N % 2 == 0)
+                {
+                    if ((T[1] + 1) % 2 == 0)
+                        return true;
+                    return false;
+                }
+                else
+                {
+                    if ((T[1] + 1) % 2 == 1)
+                        return true;
+                    return false;
+                }
+            }
+        }
+
+        private void  swapImage(int num,int w,int h)
+        {
+            List<int> Indexes = new List<int>(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 9 });
+            Random r = new Random();
+
+            int k = 0;
+            for (int i = 0; i < num; i++)
+            {
+                for (int j = 0; j < num; j++)
+                {
+                    k = Indexes[r.Next(0, Indexes.Count)];
+                    Indexes.Remove(k);
+
+                    table.Children.Add(listImages[k]);
+                    Canvas.SetLeft(listImages[k], j * (w + 2));
+                    Canvas.SetTop(listImages[k], i * (h + 2));
+
+                    _puzzle[j, i] = k;
+
+
+                    listImages[k].PreviewMouseLeftButtonUp += CropImage_PreviewMouseLeftButtonUp;
+                    listImages[k].MouseLeftButtonDown += CropImage_MouseLeftButtonDown;
+
+                    //var rect = new Int32Rect(j * w, i * h, w, h);
+                    //var cropbitmap = new CroppedBitmap(source, rect);
+
+                    //var cropImage = new Image();
+
+                    //cropImage.Width = w;
+                    //cropImage.Height = h;
+                    //cropImage.Source = cropbitmap;
+                    //table.Children.Add(cropImage);
+                    //Canvas.SetLeft(cropImage, j * (w + 2));
+                    //Canvas.SetTop(cropImage, i * (h + 2));
+
+                    //cropImage.PreviewMouseLeftButtonUp += CropImage_PreviewMouseLeftButtonUp;
+                    //cropImage.MouseLeftButtonDown += CropImage_MouseLeftButtonDown;
+
+                    //cropImage.Tag = new Tuple<int, int>(i, j);
+                }
+            }
+        }
+
 
         /// <summary>
         /// Cắt ảnh
@@ -105,46 +221,31 @@ namespace _1712384_1712349_1712407
 
             listImages.Add(cropImage1);
 
-            List<int> Indexes = new List<int>(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 9 });
-            Random r = new Random();
-            int k = 0;
+            table.Children.Clear();
+            swapImage(num,w,h);
+
             for (int i = 0; i < num; i++)
             {
                 for (int j = 0; j < num; j++)
                 {
-                    k = Indexes[r.Next(0, Indexes.Count)];
-                    Indexes.Remove(k);
-
-                    table.Children.Add(listImages[k]);
-                    Canvas.SetLeft(listImages[k], j * (w + 2));
-                    Canvas.SetTop(listImages[k], i * (h + 2));
-
-                    _puzzle[j, i] = k;
-
-
-                    listImages[k].PreviewMouseLeftButtonUp += CropImage_PreviewMouseLeftButtonUp;
-                    listImages[k].MouseLeftButtonDown += CropImage_MouseLeftButtonDown;
-
-                    //var rect = new Int32Rect(j * w, i * h, w, h);
-                    //var cropbitmap = new CroppedBitmap(source, rect);
-
-                    //var cropImage = new Image();
-
-                    //cropImage.Width = w;
-                    //cropImage.Height = h;
-                    //cropImage.Source = cropbitmap;
-                    //table.Children.Add(cropImage);
-                    //Canvas.SetLeft(cropImage, j * (w + 2));
-                    //Canvas.SetTop(cropImage, i * (h + 2));
-
-                    //cropImage.PreviewMouseLeftButtonUp += CropImage_PreviewMouseLeftButtonUp;
-                    //cropImage.MouseLeftButtonDown += CropImage_MouseLeftButtonDown;
-
-
-                    //cropImage.Tag = new Tuple<int, int>(i, j);
-
-
+                    Debug.Write(_puzzle[j, i] + " ");
                 }
+                Debug.WriteLine("");
+            }
+
+            while (!CheckValid(_puzzle,num))
+            {
+                table.Children.Clear();
+                swapImage(num,w,h);
+            }
+
+            for (int i = 0; i < num; i++)
+            {
+                for (int j = 0; j < num; j++)
+                {
+                    Debug.Write(_puzzle[j,i] + " ");
+                }
+                Debug.WriteLine("");
             }
             CountDown();
         }
