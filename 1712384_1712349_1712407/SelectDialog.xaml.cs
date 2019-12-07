@@ -42,7 +42,9 @@ namespace _1712384_1712349_1712407
             public static BindingList<Picture> GetAll()
             {
                 BindingList<Picture> result = null;
-                var lines = File.ReadAllLines("Source.txt");
+
+                var targetPath = PathToProject() + "Source.txt";
+                var lines = File.ReadAllLines(targetPath);
                 var count = int.Parse(lines[0]);
 
                 if(count>0)
@@ -73,8 +75,7 @@ namespace _1712384_1712349_1712407
         {
             if(SourceData!="")
             {
-                SourceData = "Images\\"+SourceData;
-                //MessageBox.Show(SourceData);
+                SourceData =PathToProject()+ "Images\\"+SourceData;
                 this.DialogResult = true;
                 this.Close();
             }
@@ -93,13 +94,19 @@ namespace _1712384_1712349_1712407
             {
                 SourceData = _picture[item].Source;
             }
-            //MessageBox.Show(_picture[item].Source);
-            //MessageBox.Show(item.ToString());
-            //if (item!=null)
-            //{
-            //    MessageBox.Show(item.ToString());
-            //}
-         
+        }
+
+        public static string PathToProject()
+        {
+            var currentPath = AppDomain.CurrentDomain.BaseDirectory;//đường dẫn đến thư mục Debug/bin
+            const string Separator = "\\";
+            var tokens = currentPath.Split(new string[] { Separator }, StringSplitOptions.RemoveEmptyEntries);
+            var targetPath = "";
+            for (int i = 0; i < tokens.Length - 2; i++)
+            {
+                targetPath = targetPath + tokens[i] + "\\";
+            }
+            return targetPath;
         }
     }
 }
