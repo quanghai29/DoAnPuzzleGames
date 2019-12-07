@@ -67,6 +67,10 @@ namespace _1712384_1712349_1712407
                    new Uri(screen.FileName, UriKind.Absolute)),
                     numCut = number
                 };
+                if (timer != null)
+                {
+                    ResetTimer(21);
+                }
                 CropImage(Game);
             }
         }
@@ -390,6 +394,10 @@ namespace _1712384_1712349_1712407
                    new Uri(screen.SourceData, UriKind.Relative)),
                     numCut = 3
                 };
+                if (timer != null)
+                {
+                    ResetTimer(21);
+                }
                 CropImage(Game1);
             }
             else
@@ -411,7 +419,7 @@ namespace _1712384_1712349_1712407
             timer.Start();
         }
 
-        int sec=650;
+        int sec=21;//Số giây 
         /// <summary>
         /// Hiển thị bộ đếm thời gian sau mỗi giây trôi qua
         /// </summary>
@@ -425,6 +433,7 @@ namespace _1712384_1712349_1712407
             if (sec == 0)
             {
                 timer.Stop();
+                timer.Dispose();
                 MessageBox.Show("You lose");
             }
         }
@@ -464,6 +473,13 @@ namespace _1712384_1712349_1712407
 
             result = h + ":" + m + ":" + s;
             return result;
+        }
+
+        private void ResetTimer(int resetSec)
+        {
+            timer.Stop();
+            timer.Dispose();
+            sec = resetSec;
         }
     }
 }
