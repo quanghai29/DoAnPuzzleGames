@@ -255,7 +255,7 @@ namespace _1712384_1712349_1712407
                 }
                 Debug.WriteLine("");
             }
-
+            ResultImage.Source = image.Source;
             CountDown();
         }
         private void CropImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

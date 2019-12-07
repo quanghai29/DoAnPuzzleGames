@@ -14,29 +14,29 @@
         MouseMove="Window_MouseMove">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="8*"/>
             <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
 
         <!-- Khung để chơi game -->
         <Canvas x:Name="table">
-          
+
         </Canvas>
-        <Grid Grid.Column="1" Background="Black" Margin="0,0,-396,-55">
+        <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="6*"/>
                 <RowDefinition Height="6*"/>
             </Grid.RowDefinitions>
             <!--Khung để ảnh mẫu , nút chọn ảnh khác,...-->
-            <StackPanel>
-
+            <StackPanel Margin="0,0,5,0">
+                <Image Name="ResultImage" VerticalAlignment="Center" Stretch="Fill"/>
             </StackPanel>
 
             <!--Khung để điểm thời gian thực hiện , nút reset,...-->
             <StackPanel Grid.Row="1" Background="Pink" Orientation="Horizontal">
                 <Canvas>
-                    <Button x:Name="Play" Click="Play_Click" Width="60" Height="25" Content="Play" Canvas.Left="98" Canvas.Top="52"/>
-                    <Button x:Name="Select" Content="Select from Gallery" Click="Select_Click" Width="150" Height="25" Canvas.Left="184" Canvas.Top="52"/>
+                    <Button x:Name="Play" Click="Play_Click" Width="60" Height="25" Content="Play" Canvas.Left="14" Canvas.Top="52"/>
+                    <Button x:Name="Select" Content="Select from Gallery" Click="Select_Click" Width="150" Height="25" Canvas.Left="94" Canvas.Top="52"/>
                     <Label Name="lblTimer" Width="120" Height="25" HorizontalAlignment="Center" Canvas.Left="138" Canvas.Top="113"/>
                 </Canvas>
             </StackPanel>
