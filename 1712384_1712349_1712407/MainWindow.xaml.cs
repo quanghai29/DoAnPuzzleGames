@@ -36,12 +36,18 @@ namespace _1712384_1712349_1712407
 
         List<Image> listImages = new List<Image>();
         int[,] _puzzle = new int[3, 3];
-
+        int[,] win = {{0, 1, 2},
+                        {3, 4, 5},
+                        {6, 7, 9}};
+        int startX = 100;
+        int startY = 100;
+        int number = 3;// Biến lưu cái số lượng mảnh cắt ra
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-
         }
+
+
 
 
         /// <summary>
@@ -59,7 +65,7 @@ namespace _1712384_1712349_1712407
                 {
                     Source = new BitmapImage(
                    new Uri(screen.FileName, UriKind.Absolute)),
-                    numCut = 3
+                    numCut = number
                 };
                 CropImage(Game);
             }
@@ -70,21 +76,21 @@ namespace _1712384_1712349_1712407
             int count = 0;
             for (int j = y + 1; j < n; j++)
             {
-                if (a[x, j] < a[x, y] && a[y,x] != 9)
+                if (a[x, j] < a[x, y] && a[x,y] != 9)
                     count++;
             }
             for (int i = x + 1; i < n; i++)
             {
                 for (int j = 0; j < n; j++)
                 {
-                    if (a[i, j] < a[x, y] && a[y, x] != 9)
+                    if (a[i, j] < a[x, y] && a[x,y] != 9)
                         count++;
                 }
             }
             return count;
         }
 
-        //Thuật toán: https://yinyangit.wordpress.com/2010/12/11/algorithm-tim-hi%E1%BB%83u-v%E1%BB%81-bai-toan-n-puzzle-updated/
+        //Thuật toán kiểm tra tráo hình có thể chuyển về vị trí ban đầu hay không: https://yinyangit.wordpress.com/2010/12/11/algorithm-tim-hi%E1%BB%83u-v%E1%BB%81-bai-toan-n-puzzle-updated/
         private Boolean CheckValid(int[,] a, int n)
         {
             List<int> smaller = new List<int>();
@@ -93,7 +99,7 @@ namespace _1712384_1712349_1712407
             {
                 for (int j = 0; j < n; j++)
                 {
-                    smaller.Add(countSmallerNumber(a, n, j, i));
+                    smaller.Add(countSmallerNumber(a, n, i, j));
                 }
             }
             for (int i = 0; i < n * n - 1; i++)
@@ -114,7 +120,7 @@ namespace _1712384_1712349_1712407
                 {
                     for (int j = 0; j < n; j++)
                     {
-                        if (a[j, i] == 9)
+                        if (a[i, j] == 9)
                         {
                             T[0] = j; T[1] = i;
                             break;
@@ -137,6 +143,32 @@ namespace _1712384_1712349_1712407
             }
         }
 
+        private Tuple<int,int> getIndex(int[,]a , int n, int x)
+        {
+            for(int i = 0; i < n; i++)
+            {
+                for(int j = 0; j < n; j++)
+                {
+                    if (a[i, j] == x)
+                        return new Tuple<int, int>(i, j);
+                }
+            }
+            return new Tuple<int, int>(-1, -1);
+        }
+
+        private Boolean checkWin(int[,]a, int n)
+        {
+            for(int i = 0; i< n; i++)
+            {
+                for(int j = 0; j < n; j++)
+                {
+                    if (a[i, j] != _puzzle[i, j])
+                        return false;
+                }
+            }
+            return true;
+        }
+
         private void  swapImage(int num,int w,int h)
         {
             List<int> Indexes = new List<int>(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 9 });
@@ -151,31 +183,14 @@ namespace _1712384_1712349_1712407
                     Indexes.Remove(k);
 
                     table.Children.Add(listImages[k]);
-                    Canvas.SetLeft(listImages[k], j * (w + 2));
-                    Canvas.SetTop(listImages[k], i * (h + 2));
+                    Canvas.SetLeft(listImages[k], j * (w + 2) + startX);
+                    Canvas.SetTop(listImages[k], i * (h + 2) +startY);
 
-                    _puzzle[j, i] = k;
 
+                    _puzzle[i, j] = k;
 
                     listImages[k].PreviewMouseLeftButtonUp += CropImage_PreviewMouseLeftButtonUp;
                     listImages[k].MouseLeftButtonDown += CropImage_MouseLeftButtonDown;
-
-                    //var rect = new Int32Rect(j * w, i * h, w, h);
-                    //var cropbitmap = new CroppedBitmap(source, rect);
-
-                    //var cropImage = new Image();
-
-                    //cropImage.Width = w;
-                    //cropImage.Height = h;
-                    //cropImage.Source = cropbitmap;
-                    //table.Children.Add(cropImage);
-                    //Canvas.SetLeft(cropImage, j * (w + 2));
-                    //Canvas.SetTop(cropImage, i * (h + 2));
-
-                    //cropImage.PreviewMouseLeftButtonUp += CropImage_PreviewMouseLeftButtonUp;
-                    //cropImage.MouseLeftButtonDown += CropImage_MouseLeftButtonDown;
-
-                    //cropImage.Tag = new Tuple<int, int>(i, j);
                 }
             }
         }
@@ -194,16 +209,7 @@ namespace _1712384_1712349_1712407
             int h = image.cropHeight;
             var source = image.Source;
 
-            //Clear những cái mảnh Image puzzle đã có trước đó
-            if(listImages.Count>0)
-            {
-                while (listImages.Count > 0)
-                {
-                    listImages.Remove(listImages[listImages.Count - 1]);
-                }
-            }
-            
-
+            listImages.Clear();
             for (int i = 0; i < num; i++)
             {
                 for (int j = 0; j < num; j++)
@@ -234,16 +240,8 @@ namespace _1712384_1712349_1712407
             table.Children.Clear();
             swapImage(num,w,h);
 
-            for (int i = 0; i < num; i++)
-            {
-                for (int j = 0; j < num; j++)
-                {
-                    Debug.Write(_puzzle[j, i] + " ");
-                }
-                Debug.WriteLine("");
-            }
 
-            while (!CheckValid(_puzzle,num))
+            while (!CheckValid(_puzzle,num) && !checkWin(_puzzle,num))
             {
                 table.Children.Clear();
                 swapImage(num,w,h);
@@ -253,7 +251,7 @@ namespace _1712384_1712349_1712407
             {
                 for (int j = 0; j < num; j++)
                 {
-                    Debug.Write(_puzzle[j,i] + " ");
+                    Debug.Write(_puzzle[i,j] + " ");
                 }
                 Debug.WriteLine("");
             }
@@ -277,11 +275,84 @@ namespace _1712384_1712349_1712407
 
             var w = _games[index].cropWidth;
             var h = _games[index].cropHeight;
-            int x = (int)(position.X) / (w + 2) * (w + 2);
-            int y = (int)(position.Y) / (h + 2) * (h + 2);
+            int x = (int)(position.X - startX) / (w + 2) * (w + 2);
+            int y = (int)(position.Y - startY) / (h + 2) * (h + 2);
 
+            //Tọa độ thật 
+            
+           
+            bool validPosition = true;
             var image = sender as Image;
             var (i, j) = image.Tag as Tuple<int, int>;
+            var (n, m) = getIndex(_puzzle, number, i * number + j);
+            //Xét vị trí hợp lệ -------------------------------
+            // Xét lần lượt các biên sau
+
+            //Biên bên trái
+            if (x < 0)
+            {
+                x = 0;
+                validPosition = false;
+            }
+            //Biên bên phải
+            if (x > (w + 2) * (number - 1))
+            {
+                x =  (w + 2) * (number - 1);
+                validPosition = false;
+            }
+            //Biên bên trên cùng
+            if (y < 0)
+            {
+                y = 0;
+                validPosition = false;
+            }
+            //Biên bên dưới
+            if (y > (h + 2) * (number - 1))
+            {
+                y = (h + 2) * (number - 1);
+                validPosition = false;
+            }
+
+            var indexY = y / h;
+            var indexX = x / w;
+            //Xét hướng di chuyển m ,n 
+            //Xét không cho đi chéo đi trùng ô
+
+            //áp dụng công thức tính khoảng cách giữa hai điểm
+            // căn((a2-a1)^2 +(b2-b1)^2))
+
+            var denta = Math.Sqrt(Math.Pow((indexY - n), 2) + Math.Pow((indexX - m), 2));
+            if (_puzzle[indexY, indexX] != 9 || denta!=1)
+            {
+                x =  (w + 2) * m;
+                y =  (h + 2) * n;
+                validPosition = false;
+            }
+            Canvas.SetLeft(image, x+startX);
+            Canvas.SetTop(image, y+startY);
+
+            
+          
+            
+            //-------------------------------------------------------
+            //Nếu snap hợp lệ rồi mới được tráo mảng puzzle
+            if (validPosition)
+            {
+                var (s, t) = getIndex(_puzzle, 3, win[i, j]);
+                int tmp = _puzzle[y / h, x / w];
+                _puzzle[y / h, x / w] = win[i, j];
+                _puzzle[s, t] = tmp;
+
+                for (int k = 0; k < 3; k++)
+                {
+                    for (int p = 0; p < 3; p++)
+                    {
+                        Debug.Write(_puzzle[k, p] + " ");
+                    }
+                    Debug.WriteLine("");
+                }
+                CountDown();
+            }
         }
 
         private void Window_MouseMove(object sender, MouseEventArgs e)
@@ -349,7 +420,7 @@ namespace _1712384_1712349_1712407
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             sec--;
-            Dispatcher.Invoke(() =>lblTimer.Content=FormatTimer(sec));
+            Dispatcher.Invoke(() => lblTimer.Content=FormatTimer(sec));
 
             if (sec == 0)
             {
