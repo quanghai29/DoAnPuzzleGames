@@ -39,7 +39,9 @@ namespace _1712384_1712349_1712407
         int[,] win = {{0, 1, 2},
                         {3, 4, 5},
                         {6, 7, 9}};
-
+        int startX = 100;
+        int startY = 100;
+        int number = 3;// Biến lưu cái số lượng mảnh cắt ra
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -63,7 +65,7 @@ namespace _1712384_1712349_1712407
                 {
                     Source = new BitmapImage(
                    new Uri(screen.FileName, UriKind.Absolute)),
-                    numCut = 3
+                    numCut = number
                 };
 
                 CropImage(Game);
@@ -182,8 +184,9 @@ namespace _1712384_1712349_1712407
                     Indexes.Remove(k);
 
                     table.Children.Add(listImages[k]);
-                    Canvas.SetLeft(listImages[k], j * (w + 2));
-                    Canvas.SetTop(listImages[k], i * (h + 2));
+                    Canvas.SetLeft(listImages[k], j * (w + 2) + startX);
+                    Canvas.SetTop(listImages[k], i * (h + 2) +startY);
+
 
                     _puzzle[i, j] = k;
 
@@ -272,29 +275,84 @@ namespace _1712384_1712349_1712407
 
             var w = _games[index].cropWidth;
             var h = _games[index].cropHeight;
-            int x = (int)(position.X) / (w + 2) * (w + 2);
-            int y = (int)(position.Y) / (h + 2) * (h + 2);
+            int x = (int)(position.X - startX) / (w + 2) * (w + 2);
+            int y = (int)(position.Y - startY) / (h + 2) * (h + 2);
 
-            Debug.WriteLine(y / h + " " + x / w);
-
+            //Tọa độ thật 
+            
+           
+            bool validPosition = true;
             var image = sender as Image;
             var (i, j) = image.Tag as Tuple<int, int>;
+            var (n, m) = getIndex(_puzzle, number, i * number + j);
+            //Xét vị trí hợp lệ -------------------------------
+            // Xét lần lượt các biên sau
 
-            var (s, t) = getIndex(_puzzle, 3, win[i, j]);
-            int tmp = _puzzle[y / h, x / w];
-            _puzzle[y / h, x / w] = win[i , j];
-            _puzzle[s, t] = tmp;
-
-           
-            for (int k = 0; k < 3; k++)
+            //Biên bên trái
+            if (x < 0)
             {
-                for (int p = 0; p < 3; p++)
-                {
-                    Debug.Write(_puzzle[k, p] + " ");
-                }
-                Debug.WriteLine("");
+                x = 0;
+                validPosition = false;
             }
-            CountDown();
+            //Biên bên phải
+            if (x > (w + 2) * (number - 1))
+            {
+                x =  (w + 2) * (number - 1);
+                validPosition = false;
+            }
+            //Biên bên trên cùng
+            if (y < 0)
+            {
+                y = 0;
+                validPosition = false;
+            }
+            //Biên bên dưới
+            if (y > (h + 2) * (number - 1))
+            {
+                y = (h + 2) * (number - 1);
+                validPosition = false;
+            }
+
+            var indexY = y / h;
+            var indexX = x / w;
+            //Xét hướng di chuyển m ,n 
+            //Xét không cho đi chéo đi trùng ô
+
+            //áp dụng công thức tính khoảng cách giữa hai điểm
+            // căn((a2-a1)^2 +(b2-b1)^2))
+
+            var denta = Math.Sqrt(Math.Pow((indexY - n), 2) + Math.Pow((indexX - m), 2));
+            if (_puzzle[indexY, indexX] != 9 || denta!=1)
+            {
+                x =  (w + 2) * m;
+                y =  (h + 2) * n;
+                validPosition = false;
+            }
+            Canvas.SetLeft(image, x+startX);
+            Canvas.SetTop(image, y+startY);
+
+            
+          
+            
+            //-------------------------------------------------------
+            //Nếu snap hợp lệ rồi mới được tráo mảng puzzle
+            if (validPosition)
+            {
+                var (s, t) = getIndex(_puzzle, 3, win[i, j]);
+                int tmp = _puzzle[y / h, x / w];
+                _puzzle[y / h, x / w] = win[i, j];
+                _puzzle[s, t] = tmp;
+
+                for (int k = 0; k < 3; k++)
+                {
+                    for (int p = 0; p < 3; p++)
+                    {
+                        Debug.Write(_puzzle[k, p] + " ");
+                    }
+                    Debug.WriteLine("");
+                }
+                CountDown();
+            }
         }
 
         private void Window_MouseMove(object sender, MouseEventArgs e)
