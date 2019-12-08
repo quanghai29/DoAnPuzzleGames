@@ -120,16 +120,6 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\bus.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\lion.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\bookshelf.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -142,6 +132,10 @@
     <Resource Include="Images\arrowdown.png" />
     <Resource Include="Images\arrowleft.png" />
     <Resource Include="Images\arrowright.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\nang1.jpg" />
+    <Resource Include="Images\nang3.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

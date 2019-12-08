@@ -35,13 +35,16 @@ namespace _1712384_1712349_1712407
         BindingList<ImageOperation> _games = new BindingList<ImageOperation>();
 
         List<Image> listImages = new List<Image>();
-        int[,] _puzzle = new int[3, 3];
+
+        int number = 3;// Biến lưu cái số lượng mảnh cắt ra
+        int[,] _puzzle = new int[3,3];
         int[,] win = {{0, 1, 2},
                         {3, 4, 5},
                         {6, 7, 9}};
-        int startX = 100;
-        int startY = 100;
-        int number = 3;// Biến lưu cái số lượng mảnh cắt ra
+        int startX = 50;
+        int startY = 20;
+        int sizeWidth = 660;
+        int sizeHeight = 660;
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -63,10 +66,16 @@ namespace _1712384_1712349_1712407
             {
                 var Game = new playImage()
                 {
-                    Source = new BitmapImage(
-                   new Uri(screen.FileName, UriKind.Absolute)),
+                    Source = new BitmapImage(),
                     numCut = number
                 };
+                Game.Source.BeginInit();
+                Game.Source.DecodePixelHeight = sizeWidth;
+                Game.Source.DecodePixelWidth = sizeHeight;
+                Game.Source.UriSource = new Uri(screen.FileName, UriKind.Absolute);
+                Game.Source.EndInit();
+
+                
                 if (timer != null)
                 {
                     ResetTimer(21);
@@ -329,7 +338,7 @@ namespace _1712384_1712349_1712407
             // căn((a2-a1)^2 +(b2-b1)^2))
 
             var denta = Math.Sqrt(Math.Pow((indexY - n), 2) + Math.Pow((indexX - m), 2));
-            if (_puzzle[indexY, indexX] != 9 || denta!=1)
+            if (_puzzle[indexY, indexX] != 9 || denta > 1)
             {
                 x =  (w + 2) * m;
                 y =  (h + 2) * n;
@@ -345,14 +354,14 @@ namespace _1712384_1712349_1712407
             //Nếu snap hợp lệ rồi mới được tráo mảng puzzle
             if (validPosition)
             {
-                var (s, t) = getIndex(_puzzle, 3, win[i, j]);
+                var (s, t) = getIndex(_puzzle, number, win[i, j]);
                 int tmp = _puzzle[y / h, x / w];
                 _puzzle[y / h, x / w] = win[i, j];
                 _puzzle[s, t] = tmp;
 
-                for (int k = 0; k < 3; k++)
+                for (int k = 0; k < number; k++)
                 {
-                    for (int p = 0; p < 3; p++)
+                    for (int p = 0; p < number; p++)
                     {
                         Debug.Write(_puzzle[k, p] + " ");
                     }
@@ -391,17 +400,23 @@ namespace _1712384_1712349_1712407
             var screen = new SelectDialog();
             if (screen.ShowDialog() == true)
             {
-                var Game1 = new playImage()
+                var Game = new playImage()
                 {
-                    Source = new BitmapImage(
-                   new Uri(screen.SourceData, UriKind.Relative)),
-                    numCut = 3
+                    Source = new BitmapImage(),
+                    numCut = number
                 };
+
+                Game.Source.BeginInit();
+                Game.Source.DecodePixelHeight = sizeWidth;
+                Game.Source.DecodePixelWidth = sizeHeight;
+                Game.Source.UriSource = new Uri(screen.SourceData, UriKind.Absolute);
+                Game.Source.EndInit();
+
                 if (timer != null)
                 {
                     ResetTimer(21);
                 }
-                CropImage(Game1);
+                CropImage(Game);
             }
             else
             {
@@ -483,6 +498,11 @@ namespace _1712384_1712349_1712407
             timer.Stop();
             timer.Dispose();
             sec = resetSec;
+        }
+
+        private void SaveGame_Click(object sender, RoutedEventArgs e)
+        {
+           
         }
     }
 }
