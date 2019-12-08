@@ -215,62 +215,62 @@ namespace _1712384_1712349_1712407
         /// <param name="image"></param>
         private void CropImage(playImage image)
         {
-            _games.Add(image);
+                _games.Add(image);
 
-            int num = image.numCut;
-            int w = image.cropWidth;
-            int h = image.cropHeight;
-            var source = image.Source;
+                int num = image.numCut;
+                int w = image.cropWidth;
+                int h = image.cropHeight;
+                var source = image.Source;
 
-            listImages.Clear();
-            for (int i = 0; i < num; i++)
-            {
-                for (int j = 0; j < num; j++)
+                listImages.Clear();
+                for (int i = 0; i < num; i++)
                 {
-                    var rect = new Int32Rect(j * w, i * h, w, h);
-                    
-                    var cropbitmap = new CroppedBitmap(source, rect);
+                    for (int j = 0; j < num; j++)
+                    {
+                        var rect = new Int32Rect(j * w, i * h, w, h);
 
-                    var cropImage = new Image();
+                        var cropbitmap = new CroppedBitmap(source, rect);
 
-                    cropImage.Width = w;
-                    cropImage.Height = h;
-                    cropImage.Source = cropbitmap;
-                    listImages.Add(cropImage);
+                        var cropImage = new Image();
 
-                    cropImage.Tag = new Tuple<int, int>(i, j);
+                        cropImage.Width = w;
+                        cropImage.Height = h;
+                        cropImage.Source = cropbitmap;
+                        listImages.Add(cropImage);
+
+                        cropImage.Tag = new Tuple<int, int>(i, j);
+                    }
                 }
-            }
 
 
-            // lưu hình trống
-            var cropImage1 = new Image();
+                // lưu hình trống
+                var cropImage1 = new Image();
 
-            cropImage1.Width = w;
-            cropImage1.Height = h;
+                cropImage1.Width = w;
+                cropImage1.Height = h;
 
-            listImages.Add(cropImage1);
+                listImages.Add(cropImage1);
 
-            table.Children.Clear();
-            swapImage(num,w,h);
-
-
-            while (!CheckValid(_puzzle,num) && !checkWin(_puzzle,num))
-            {
                 table.Children.Clear();
-                swapImage(num,w,h);
-            }
+                swapImage(num, w, h);
 
-            for (int i = 0; i < num; i++)
-            {
-                for (int j = 0; j < num; j++)
+
+                while (!CheckValid(_puzzle, num) && !checkWin(_puzzle, num))
                 {
-                    Debug.Write(_puzzle[i,j] + " ");
+                    table.Children.Clear();
+                    swapImage(num, w, h);
                 }
-                Debug.WriteLine("");
-            }
-            ResultImage.Source = image.Source;
-            CountDown();
+
+                for (int i = 0; i < num; i++)
+                {
+                    for (int j = 0; j < num; j++)
+                    {
+                        Debug.Write(_puzzle[i, j] + " ");
+                    }
+                    Debug.WriteLine("");
+                }
+                ResultImage.Source = image.Source;
+                CountDown();
         }
         private void CropImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -448,11 +448,13 @@ namespace _1712384_1712349_1712407
             sec--;
             Dispatcher.Invoke(() => lblTimer.Content=FormatTimer(sec));
 
-            if (sec==0)
+            if (sec==0)//người chơi thua cuộc(hết thời gian)
             {
                 timer.Stop();
                 timer.Dispose();
-                MessageBox.Show("You lose");
+                Dispatcher.Invoke(()=>MessageBox.Show(Application.Current.MainWindow, "You lose!!!"));
+                Dispatcher.Invoke(() => ResetGame());
+                
             }
         }
 
@@ -500,6 +502,11 @@ namespace _1712384_1712349_1712407
             sec = resetSec;
         }
 
+        private void ResetGame()
+        {
+            table.Children.Clear();
+            listImages.Clear();
+        }
         private void SaveGame_Click(object sender, RoutedEventArgs e)
         {
            
