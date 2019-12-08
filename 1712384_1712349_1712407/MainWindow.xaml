@@ -19,25 +19,56 @@
         </Grid.ColumnDefinitions>
 
         <!-- Khung để chơi game -->
-        <Canvas x:Name="table">
+        <Canvas x:Name="table" Panel.ZIndex="0">
           
         </Canvas>
-        <Grid Grid.Column="1" Background="Black" Margin="0,0,-396,-55">
+        <Grid Grid.Column="1"  Margin="0,0,-396,-55">
             <Grid.RowDefinitions>
                 <RowDefinition Height="6*"/>
                 <RowDefinition Height="6*"/>
             </Grid.RowDefinitions>
             <!--Khung để ảnh mẫu , nút chọn ảnh khác,...-->
-            <StackPanel>
+            <StackPanel Background="Black">
 
             </StackPanel>
 
             <!--Khung để điểm thời gian thực hiện , nút reset,...-->
-            <StackPanel Grid.Row="1" Background="Pink" Orientation="Horizontal">
+            <StackPanel Grid.Row="1" Background="#f6f8fa" Orientation="Horizontal">
                 <Canvas>
-                    <Button x:Name="Play" Click="Play_Click" Width="60" Height="25" Content="Play" Canvas.Left="98" Canvas.Top="52"/>
-                    <Button x:Name="Select" Content="Select from Gallery" Click="Select_Click" Width="150" Height="25" Canvas.Left="184" Canvas.Top="52"/>
-                    <Label Name="lblTimer" Width="120" Height="25" HorizontalAlignment="Center" Canvas.Left="138" Canvas.Top="113"/>
+                        <Button x:Name="Play" Click="Play_Click" Width="60" Height="25" Content="Play" Canvas.Left="98" Canvas.Top="52"/>
+                        <Button x:Name="Select" Content="Select from Gallery" Click="Select_Click" Width="150" Height="25" Canvas.Left="184" Canvas.Top="52"/>
+                        <Label Name="lblTimer" Width="120" Height="25" HorizontalAlignment="Center" Canvas.Left="250" Canvas.Top="113"/>
+                 </Canvas>
+
+                <Canvas>
+                    <Button  Cursor="Hand" Margin="0,20,5,20" Height="auto" 
+                         Background="#f6f8fa" BorderThickness="0,1,1,0" Canvas.Top="90" Canvas.Left="100">
+                        <Button.Effect>
+                            <DropShadowEffect BlurRadius="5" ShadowDepth="1"/>
+                        </Button.Effect>
+                        <Image Height="50" Source="Images/arowup.png"/>
+                    </Button>
+                    <Button  Cursor="Hand" Margin="0,20,5,20" Height="auto" 
+                         Background="#f6f8fa" BorderThickness="0,1,1,0" Canvas.Top="140" Canvas.Left="30">
+                        <Button.Effect>
+                            <DropShadowEffect BlurRadius="5" ShadowDepth="1"/>
+                        </Button.Effect>
+                        <Image Height="50" Source="Images/arrowleft.png"/>
+                    </Button>
+                    <Button  Cursor="Hand" Margin="0,20,5,20" Height="auto" 
+                         Background="#f6f8fa" BorderThickness="0,1,1,0" Canvas.Top="140" Canvas.Left="170">
+                        <Button.Effect>
+                            <DropShadowEffect BlurRadius="5" ShadowDepth="1"/>
+                        </Button.Effect>
+                        <Image Height="50" Source="Images/arrowright.png"/>
+                    </Button>
+                    <Button  Cursor="Hand" Margin="0,20,5,20" Height="auto" 
+                         Background="#f6f8fa" BorderThickness="0,1,1,0" Canvas.Top="190" Canvas.Left="100">
+                        <Button.Effect>
+                            <DropShadowEffect BlurRadius="5" ShadowDepth="1"/>
+                        </Button.Effect>
+                        <Image Height="50" Source="Images/arrowdown.png"/>
+                    </Button>
                 </Canvas>
             </StackPanel>
         </Grid>

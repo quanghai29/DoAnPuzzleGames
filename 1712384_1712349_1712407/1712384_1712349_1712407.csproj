@@ -134,5 +134,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\arowup.png" />
+    <Resource Include="Images\arrowdown.png" />
+    <Resource Include="Images\arrowleft.png" />
+    <Resource Include="Images\arrowright.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
