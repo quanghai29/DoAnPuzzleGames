@@ -219,6 +219,7 @@ namespace _1712384_1712349_1712407
                 for (int j = 0; j < num; j++)
                 {
                     var rect = new Int32Rect(j * w, i * h, w, h);
+                    
                     var cropbitmap = new CroppedBitmap(source, rect);
 
                     var cropImage = new Image();
@@ -289,6 +290,8 @@ namespace _1712384_1712349_1712407
             var image = sender as Image;
             var (i, j) = image.Tag as Tuple<int, int>;
             var (n, m) = getIndex(_puzzle, number, i * number + j);
+            Panel.SetZIndex(image, (int)100);
+            
             //Xét vị trí hợp lệ -------------------------------
             // Xét lần lượt các biên sau
 
@@ -334,10 +337,10 @@ namespace _1712384_1712349_1712407
             }
             Canvas.SetLeft(image, x+startX);
             Canvas.SetTop(image, y+startY);
+           
+            Panel.SetZIndex(image, (int)(-100));
 
-            
-          
-            
+
             //-------------------------------------------------------
             //Nếu snap hợp lệ rồi mới được tráo mảng puzzle
             if (validPosition)
