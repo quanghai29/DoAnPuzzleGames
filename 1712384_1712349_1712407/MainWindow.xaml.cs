@@ -367,7 +367,6 @@ namespace _1712384_1712349_1712407
                     }
                     Debug.WriteLine("");
                 }
-                //CountDown();
             }
         }
 
@@ -437,7 +436,7 @@ namespace _1712384_1712349_1712407
             timer.Start();
         }
 
-        int sec=21;//Số giây 
+        int sec=180;//Số giây 
         /// <summary>
         /// Hiển thị bộ đếm thời gian sau mỗi giây trôi qua
         /// </summary>
