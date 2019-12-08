@@ -135,6 +135,9 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Source.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <Resource Include="Images\arowup.png" />
     <Resource Include="Images\arrowdown.png" />
     <Resource Include="Images\arrowleft.png" />

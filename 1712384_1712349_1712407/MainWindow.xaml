@@ -14,7 +14,7 @@
         MouseMove="Window_MouseMove">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="8*"/>
             <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
 
@@ -22,14 +22,14 @@
         <Canvas x:Name="table" Panel.ZIndex="0">
           
         </Canvas>
-        <Grid Grid.Column="1"  Margin="0,0,-396,-55">
+        <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="6*"/>
                 <RowDefinition Height="6*"/>
             </Grid.RowDefinitions>
             <!--Khung để ảnh mẫu , nút chọn ảnh khác,...-->
-            <StackPanel Background="Black">
-
+            <StackPanel Margin="0,0,5,0">
+                <Image Name="ResultImage" VerticalAlignment="Center" Stretch="Fill"/>
             </StackPanel>
 
             <!--Khung để điểm thời gian thực hiện , nút reset,...-->
