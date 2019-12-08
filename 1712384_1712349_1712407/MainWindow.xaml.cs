@@ -37,18 +37,35 @@ namespace _1712384_1712349_1712407
         List<Image> listImages = new List<Image>();
 
         int number = 3;// Biến lưu cái số lượng mảnh cắt ra
-        int[,] _puzzle = new int[3,3];
-        int[,] win = {{0, 1, 2},
-                        {3, 4, 5},
-                        {6, 7, 9}};
+        int[,] _puzzle;
+        int[,] win;
+        //int[,] win = {{0, 1, 2},
+        //                {3, 4, 5},
+        //                {6, 7, 9}};
         int startX = 50;
         int startY = 20;
         int sizeWidth = 660;
         int sizeHeight = 660;
         int sec = 120;//Số giây 
+
+        private void initArray(int n)
+        {
+            _puzzle = new int[n, n];
+            win = new int[n, n];
+            int k = 0;
+            for(int i = 0;i< n; i++)
+            {
+                for(int j = 0; j < n; j++)
+                {
+                    win[i, j] = k++;
+                }
+            }
+            win[n - 1, n - 1] = n * n;
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            initArray(number);
         }
 
 
@@ -91,14 +108,14 @@ namespace _1712384_1712349_1712407
             int count = 0;
             for (int j = y + 1; j < n; j++)
             {
-                if (a[x, j] < a[x, y] && a[x,y] != 9)
+                if (a[x, j] < a[x, y] && a[x,y] != n*n)
                     count++;
             }
             for (int i = x + 1; i < n; i++)
             {
                 for (int j = 0; j < n; j++)
                 {
-                    if (a[i, j] < a[x, y] && a[x,y] != 9)
+                    if (a[i, j] < a[x, y] && a[x,y] != n*n)
                         count++;
                 }
             }
@@ -135,7 +152,7 @@ namespace _1712384_1712349_1712407
                 {
                     for (int j = 0; j < n; j++)
                     {
-                        if (a[i, j] == 9)
+                        if (a[i, j] == n*n)
                         {
                             T[0] = j; T[1] = i;
                             break;
@@ -177,7 +194,7 @@ namespace _1712384_1712349_1712407
             {
                 for(int j = 0; j < n; j++)
                 {
-                    if (a[i, j] != _puzzle[i, j])
+                    if (a[i, j] != win[i, j])
                         return false;
                 }
             }
@@ -186,7 +203,14 @@ namespace _1712384_1712349_1712407
 
         private void  swapImage(int num,int w,int h)
         {
-            List<int> Indexes = new List<int>(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 9 });
+            int[] a = new int[num * num];
+            for(int i = 0; i < num * num; i++)
+            {
+                a[i] = i;
+            }
+            a[num * num - 1] = num * num;
+            List<int> Indexes = new List<int>(a);
+
             Random r = new Random();
 
             int k = 0;
