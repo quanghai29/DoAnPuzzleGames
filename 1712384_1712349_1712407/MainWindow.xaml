@@ -37,7 +37,13 @@
                 <Canvas>
                         <Button x:Name="Play" Click="Play_Click" Width="60" Height="25" Content="Play" Canvas.Left="98" Canvas.Top="52"/>
                         <Button x:Name="Select" Content="Select from Gallery" Click="Select_Click" Width="150" Height="25" Canvas.Left="184" Canvas.Top="52"/>
-                        <Label Name="lblTimer" Width="120" Height="25" HorizontalAlignment="Center" Canvas.Left="250" Canvas.Top="113"/>
+                    <Button Name="SaveGame" Click="SaveGame_Click" Content="Save" Cursor="Hand" Margin="0,20,5,20" Height="auto" 
+                         Background="#f6f8fa" BorderThickness="0,1,1,0" Canvas.Top="32" Canvas.Left="25">
+                        <Button.Effect>
+                            <DropShadowEffect BlurRadius="5" ShadowDepth="1"/>
+                        </Button.Effect>
+                    </Button>
+                    <Label Name="lblTimer" Width="120" Height="25" HorizontalAlignment="Center" Canvas.Left="250" Canvas.Top="113"/>
                  </Canvas>
 
                 <Canvas>
