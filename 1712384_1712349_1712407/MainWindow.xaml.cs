@@ -355,7 +355,7 @@ namespace _1712384_1712349_1712407
                     }
                     Debug.WriteLine("");
                 }
-                CountDown();
+                //CountDown();
             }
         }
 
@@ -430,7 +430,7 @@ namespace _1712384_1712349_1712407
             sec--;
             Dispatcher.Invoke(() => lblTimer.Content=FormatTimer(sec));
 
-            if (sec == 0)
+            if (sec<=0)
             {
                 timer.Stop();
                 timer.Dispose();
