@@ -46,6 +46,7 @@ namespace _1712384_1712349_1712407
         int sizeWidth = 660;
         int sizeHeight = 660;
         int sec = 120;//Số giây 
+        const int resetSec = 120;
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -80,7 +81,7 @@ namespace _1712384_1712349_1712407
                 
                 if (timer != null)
                 {
-                    ResetTimer(sec);
+                    ResetTimer(resetSec);
                 }
                 CropImage(Game);
             }
@@ -415,7 +416,7 @@ namespace _1712384_1712349_1712407
 
                 if (timer != null)
                 {
-                    ResetTimer(21);
+                    ResetTimer(resetSec);
                 }
                 CropImage(Game);
             }
@@ -522,6 +523,7 @@ namespace _1712384_1712349_1712407
             {
                 writetext.WriteLine(number);//số mảnh cắt
                 writetext.WriteLine(_games.Image);//tên ảnh đang chơi
+                writetext.WriteLine(sec.ToString());//lưu lại thời gian hiện tại 
                 for(int i=0;i<number;i++)
                 {
                     for(int j=0;j<number;j++)
@@ -561,7 +563,7 @@ namespace _1712384_1712349_1712407
                 //Lấy dữ liệu từ file save.txt
                 number=int.Parse(readtext.ReadLine());
                 var image = readtext.ReadLine();
-
+                var currentTimeSave = int.Parse(readtext.ReadLine());
                 for(int i=0;i<number;i++)
                 {
                     for(int j=0;j<number;j++)
@@ -603,12 +605,12 @@ namespace _1712384_1712349_1712407
                 var source = Game.Source;
 
                 //Reset lại thời gian
-                CountDown();
                 if (timer != null)
                 {
-                    ResetTimer(sec);
+                    ResetTimer(currentTimeSave);
                 }
-
+                CountDown();
+               
                 //Cắt hình trước
                 //crop Image
                 for (int i = 0; i < number; i++)
