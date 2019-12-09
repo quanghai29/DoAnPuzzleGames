@@ -48,7 +48,7 @@ namespace _1712384_1712349_1712407
         int sizeWidth = 660;
         int sizeHeight = 660;
         int sec = 300;//Số giây 
-
+        int resetSec = 300;
         private void initArray(int n)
         {
             _puzzle = new int[n, n];
@@ -510,6 +510,7 @@ namespace _1712384_1712349_1712407
                 Dispatcher.Invoke(() => ResetGame());
                 
             }
+
         }
 
         /// <summary>
@@ -615,6 +616,7 @@ namespace _1712384_1712349_1712407
                     //Lấy dữ liệu từ file save.txt
                     number = int.Parse(readtext.ReadLine());
                     var image = readtext.ReadLine();
+                    var currentSec = int.Parse(readtext.ReadLine());
 
                     for (int i = 0; i < number; i++)
                     {
@@ -659,11 +661,12 @@ namespace _1712384_1712349_1712407
 
                     _games = Game;
                     //Reset lại thời gian
-                    CountDown();
                     if (timer != null)
                     {
-                        ResetTimer(sec);
+                        ResetTimer(currentSec);
                     }
+                    CountDown();
+                    
 
                     //Cắt hình trước
                     //crop Image
@@ -799,9 +802,11 @@ namespace _1712384_1712349_1712407
         {
             if (checkWin(_puzzle, number))
             {
-                MessageBox.Show("You Win!");
-                ResetGame();
-                ResetTimer(sec);
+                timer.Stop();
+                timer.Dispose();
+                Dispatcher.Invoke(() => MessageBox.Show(Application.Current.MainWindow, "You win!!!"));
+                Dispatcher.Invoke(() => lblTimer.Content = "00:00:00");
+                Dispatcher.Invoke(() => ResetGame());
             }
         }
     }

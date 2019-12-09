@@ -1,11 +1,12 @@
 3
-F:\HK5_19_20\Lap trinh Windows\Project\Project 2\DoAnPuzzleGames\1712384_1712349_1712407\Images\car.jpg
+E:\Nam_3\Lập Trình Window\DoAn2_Puzzle\1712384_1712349_1712407\Images\nangthoxuhue.jpg
+118
 0
-3
 1
-4
 2
-9
-6
+3
+4
 5
+6
+9
 7
