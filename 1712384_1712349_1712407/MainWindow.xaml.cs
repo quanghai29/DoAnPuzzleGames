@@ -47,7 +47,7 @@ namespace _1712384_1712349_1712407
         int startY = 20;
         int sizeWidth = 660;
         int sizeHeight = 660;
-        int sec = 120;//Số giây 
+        int sec = 300;//Số giây 
 
         private void initArray(int n)
         {
@@ -419,6 +419,8 @@ namespace _1712384_1712349_1712407
                 }
                 //CountDown();
             }
+
+            MessageWin();
         }
 
         private void Window_MouseMove(object sender, MouseEventArgs e)
@@ -486,6 +488,7 @@ namespace _1712384_1712349_1712407
             timer.Interval = 1000;
             timer.Elapsed += Timer_Elapsed;
             timer.Start();
+            lblTimer.Visibility = Visibility.Visible;
         }
 
         
@@ -709,21 +712,26 @@ namespace _1712384_1712349_1712407
         private void Arrowup_Click(object sender, RoutedEventArgs e)
         {
             arrow("up");
+            if (checkWin(_puzzle, number))
+                MessageWin();
         }
 
         private void Arrowleft_Click(object sender, RoutedEventArgs e)
         {
             arrow("left");
+            MessageWin();
         }
 
         private void Arrowright_Click(object sender, RoutedEventArgs e)
         {
             arrow("right");
+            MessageWin();
         }
 
         private void Arrowdown_Click(object sender, RoutedEventArgs e)
         {
             arrow("down");
+            MessageWin();
         }
         private void arrow(string v)
         {
@@ -786,6 +794,14 @@ namespace _1712384_1712349_1712407
             //}
         }
 
-
+        private void MessageWin()
+        {
+            if (checkWin(_puzzle, number))
+            {
+                MessageBox.Show("You Win!");
+                ResetGame();
+                ResetTimer(sec);
+            }
+        }
     }
 }
