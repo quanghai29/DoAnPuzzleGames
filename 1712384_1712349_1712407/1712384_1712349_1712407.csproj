@@ -137,5 +137,8 @@
     <Resource Include="Images\nang1.jpg" />
     <Resource Include="Images\nang3.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\background7.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

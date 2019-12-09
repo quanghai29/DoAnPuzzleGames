@@ -17,6 +17,7 @@ using System.IO;
 using Microsoft.Win32;
 using System.ComponentModel;
 using System.Timers;
+using System.Windows.Media.Animation;
 
 namespace _1712384_1712349_1712407
 {
@@ -37,19 +38,60 @@ namespace _1712384_1712349_1712407
         List<Image> listImages = new List<Image>();
 
         int number = 3;// Biến lưu cái số lượng mảnh cắt ra
-        int[,] _puzzle = new int[3,3];
-        int[,] win = {{0, 1, 2},
-                        {3, 4, 5},
-                        {6, 7, 9}};
+        int[,] _puzzle;
+        int[,] win;
+        //int[,] win = {{0, 1, 2},
+        //                {3, 4, 5},
+        //                {6, 7, 9}};
         int startX = 50;
         int startY = 20;
         int sizeWidth = 660;
         int sizeHeight = 660;
-        int sec = 120;//Số giây 
-        const int resetSec = 120;
+        int sec = 300;//Số giây 
+
+        private void initArray(int n)
+        {
+            _puzzle = new int[n, n];
+            win = new int[n, n];
+            int k = 0;
+            for(int i = 0;i< n; i++)
+            {
+                for(int j = 0; j < n; j++)
+                {
+                    win[i, j] = k++;
+                }
+            }
+            win[n - 1, n - 1] = n * n;
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            initArray(number);
+            animateBegin();
+        }
 
+        //Tạo hiệu ứng
+        private void animateBegin()
+        {
+            //var path = PathToProject() + "Images/nang1.jpg";
+            //var source = new BitmapImage(
+            //        new Uri(path, UriKind.Absolute));
+            //imageBegingame.Width = 500;
+            //imageBegingame.Height = 400;
+            //imageBegingame.Source = source;
+            //var animation = new DoubleAnimation();
+            //animation.From = 200;
+            //animation.To = 300;
+            //animation.Duration = new Duration(TimeSpan.FromSeconds(1));
+            //animation.AutoReverse = true;
+            //animation.RepeatBehavior = RepeatBehavior.Forever;
+
+
+            //var story = new Storyboard();
+            //story.Children.Add(animation);
+            //Storyboard.SetTargetName(animation, previewImage.Name);
+            //Storyboard.SetTargetProperty(animation, new PropertyPath(Canvas.LeftProperty));
+            //story.Begin(this);
         }
 
 
@@ -92,14 +134,14 @@ namespace _1712384_1712349_1712407
             int count = 0;
             for (int j = y + 1; j < n; j++)
             {
-                if (a[x, j] < a[x, y] && a[x,y] != 9)
+                if (a[x, j] < a[x, y] && a[x,y] != n*n)
                     count++;
             }
             for (int i = x + 1; i < n; i++)
             {
                 for (int j = 0; j < n; j++)
                 {
-                    if (a[i, j] < a[x, y] && a[x,y] != 9)
+                    if (a[i, j] < a[x, y] && a[x,y] != n*n)
                         count++;
                 }
             }
@@ -136,7 +178,7 @@ namespace _1712384_1712349_1712407
                 {
                     for (int j = 0; j < n; j++)
                     {
-                        if (a[i, j] == 9)
+                        if (a[i, j] == n*n)
                         {
                             T[0] = j; T[1] = i;
                             break;
@@ -178,7 +220,7 @@ namespace _1712384_1712349_1712407
             {
                 for(int j = 0; j < n; j++)
                 {
-                    if (a[i, j] != _puzzle[i, j])
+                    if (a[i, j] != win[i, j])
                         return false;
                 }
             }
@@ -187,7 +229,14 @@ namespace _1712384_1712349_1712407
 
         private void  swapImage(int num,int w,int h)
         {
-            List<int> Indexes = new List<int>(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 9 });
+            int[] a = new int[num * num];
+            for(int i = 0; i < num * num; i++)
+            {
+                a[i] = i;
+            }
+            a[num * num - 1] = num * num;
+            List<int> Indexes = new List<int>(a);
+
             Random r = new Random();
 
             int k = 0;
@@ -339,7 +388,7 @@ namespace _1712384_1712349_1712407
             // căn((a2-a1)^2 +(b2-b1)^2))
 
             var denta = Math.Sqrt(Math.Pow((indexY - n), 2) + Math.Pow((indexX - m), 2));
-            if (_puzzle[indexY, indexX] != 9 || denta > 1)
+            if (_puzzle[indexY, indexX] != number*number || denta > 1)
             {
                 x =  (w + 2) * m;
                 y =  (h + 2) * n;
@@ -370,6 +419,8 @@ namespace _1712384_1712349_1712407
                 }
                 //CountDown();
             }
+
+            MessageWin();
         }
 
         private void Window_MouseMove(object sender, MouseEventArgs e)
@@ -437,6 +488,7 @@ namespace _1712384_1712349_1712407
             timer.Interval = 1000;
             timer.Elapsed += Timer_Elapsed;
             timer.Start();
+            lblTimer.Visibility = Visibility.Visible;
         }
 
         
@@ -552,122 +604,205 @@ namespace _1712384_1712349_1712407
         //Load lại game
         private void LoadGame_Click(object sender, RoutedEventArgs e)
         {
-            if (_games == null)
-            {
-                MessageBox.Show("Please save a game first!");
-                return;
-            }
+            
             var path = PathToProject() + "save.txt";
-            using (StreamReader readtext = new StreamReader(path))
+            try
             {
-                //Lấy dữ liệu từ file save.txt
-                number=int.Parse(readtext.ReadLine());
-                var image = readtext.ReadLine();
-                var currentTimeSave = int.Parse(readtext.ReadLine());
-                for(int i=0;i<number;i++)
+                using (StreamReader readtext = new StreamReader(path))
                 {
-                    for(int j=0;j<number;j++)
+                    if (readtext == null)
+                        return;
+                    //Lấy dữ liệu từ file save.txt
+                    number = int.Parse(readtext.ReadLine());
+                    var image = readtext.ReadLine();
+
+                    for (int i = 0; i < number; i++)
                     {
-                        _puzzle[i, j] = int.Parse(readtext.ReadLine());
-                    }
-                }
-
-                Debug.WriteLine($"{number} - {image}");
-                for (int i = 0; i < number; i++)
-                {
-                    for (int j = 0; j < number; j++)
-                    {
-                        Debug.WriteLine($"{_puzzle[i, j]} "); 
-                    }
-                }
-
-                //Xóa trước khi tải hình vào
-
-                table.Children.Clear();
-                listImages.Clear();
-                //Tạo lại game
-                var Game = new playImage()
-                {
-                    Source = new BitmapImage(),
-                    Image = image,
-                    numCut = number
-                };
-                Game.Source.BeginInit();
-                Game.Source.DecodePixelHeight = sizeWidth;
-                Game.Source.DecodePixelWidth = sizeHeight;
-                Game.Source.UriSource = new Uri(image, UriKind.Absolute);
-                Game.Source.EndInit();
-                
-                //Gán lại hình mẫu 
-                ResultImage.Source = Game.Source;
-                var w = Game.cropWidth;
-                var h = Game.cropHeight;
-                var source = Game.Source;
-
-                //Reset lại thời gian
-                if (timer != null)
-                {
-                    ResetTimer(currentTimeSave);
-                }
-                CountDown();
-               
-                //Cắt hình trước
-                //crop Image
-                for (int i = 0; i < number; i++)
-                {
-                    for (int j = 0; j < number; j++)
-                    {
-                        var rect = new Int32Rect(j * w, i * h, w, h);
-                        var cropbitmap = new CroppedBitmap(source, rect);
-                        var cropImage = new Image();
-                        Canvas.SetLeft(cropImage, j * (w + 2) + startX);
-                        Canvas.SetTop(cropImage, i * (h + 2) + startY);
-                        cropImage.Width = w;
-                        cropImage.Height = h;
-                        cropImage.Source = cropbitmap;
-                        listImages.Add(cropImage);
-                        cropImage.Tag = new Tuple<int, int>(i, j);
-                    }
-                }
-
-                // Để lại hình theo trật tự cũ
-                for (int i = 0; i < number; i++)
-                {
-                    for (int j = 0; j < number; j++)
-                    {
-                        var value = _puzzle[i, j];
-                        if (value != number * number)
+                        for (int j = 0; j < number; j++)
                         {
-                            //Xét vị trí và xử lý xự kiện
-                            Canvas.SetLeft(listImages[value], j * (w + 2) + startX);
-                            Canvas.SetTop(listImages[value], i * (h + 2) + startY);
-                            table.Children.Add(listImages[value]);
-                            listImages[value].PreviewMouseLeftButtonUp += CropImage_PreviewMouseLeftButtonUp;
-                            listImages[value].MouseLeftButtonDown += CropImage_MouseLeftButtonDown;
-                        }  
+                            _puzzle[i, j] = int.Parse(readtext.ReadLine());
+                        }
+                    }
+
+                    Debug.WriteLine($"{number} - {image}");
+                    for (int i = 0; i < number; i++)
+                    {
+                        for (int j = 0; j < number; j++)
+                        {
+                            Debug.WriteLine($"{_puzzle[i, j]} ");
+                        }
+                        Debug.WriteLine("");
+                    }
+
+                    //Xóa trước khi tải hình vào
+
+                    table.Children.Clear();
+                    listImages.Clear();
+                    //Tạo lại game
+                    var Game = new playImage()
+                    {
+                        Source = new BitmapImage(),
+                        Image = image,
+                        numCut = number
+                    };
+                    Game.Source.BeginInit();
+                    Game.Source.DecodePixelHeight = sizeWidth;
+                    Game.Source.DecodePixelWidth = sizeHeight;
+                    Game.Source.UriSource = new Uri(image, UriKind.Absolute);
+                    Game.Source.EndInit();
+
+                    //Gán lại hình mẫu 
+                    ResultImage.Source = Game.Source;
+                    var w = Game.cropWidth;
+                    var h = Game.cropHeight;
+                    var source = Game.Source;
+
+                    _games = Game;
+                    //Reset lại thời gian
+                    CountDown();
+                    if (timer != null)
+                    {
+                        ResetTimer(sec);
+                    }
+
+                    //Cắt hình trước
+                    //crop Image
+                    for (int i = 0; i < number; i++)
+                    {
+                        for (int j = 0; j < number; j++)
+                        {
+                            var rect = new Int32Rect(j * w, i * h, w, h);
+                            var cropbitmap = new CroppedBitmap(source, rect);
+                            var cropImage = new Image();
+                            Canvas.SetLeft(cropImage, j * (w + 2) + startX);
+                            Canvas.SetTop(cropImage, i * (h + 2) + startY);
+                            cropImage.Width = w;
+                            cropImage.Height = h;
+                            cropImage.Source = cropbitmap;
+                            listImages.Add(cropImage);
+                            cropImage.Tag = new Tuple<int, int>(i, j);
+                        }
+                    }
+
+                    // Để lại hình theo trật tự cũ
+                    for (int i = 0; i < number; i++)
+                    {
+                        for (int j = 0; j < number; j++)
+                        {
+                            var value = _puzzle[i, j];
+                            if (value != number * number)
+                            {
+                                //Xét vị trí và xử lý xự kiện
+                                Canvas.SetLeft(listImages[value], j * (w + 2) + startX);
+                                Canvas.SetTop(listImages[value], i * (h + 2) + startY);
+                                table.Children.Add(listImages[value]);
+                                listImages[value].PreviewMouseLeftButtonUp += CropImage_PreviewMouseLeftButtonUp;
+                                listImages[value].MouseLeftButtonDown += CropImage_MouseLeftButtonDown;
+                            }
+                        }
                     }
                 }
+            }catch(Exception es)
+            {
+                Debug.WriteLine(es.Message);
+                MessageBox.Show("Please save game first");
             }
+           
         }
 
         private void Arrowup_Click(object sender, RoutedEventArgs e)
         {
-
+            arrow("up");
+            if (checkWin(_puzzle, number))
+                MessageWin();
         }
 
         private void Arrowleft_Click(object sender, RoutedEventArgs e)
         {
-
+            arrow("left");
+            MessageWin();
         }
 
         private void Arrowright_Click(object sender, RoutedEventArgs e)
         {
-
+            arrow("right");
+            MessageWin();
         }
 
         private void Arrowdown_Click(object sender, RoutedEventArgs e)
         {
+            arrow("down");
+            MessageWin();
+        }
+        private void arrow(string v)
+        {
+            var (i, j) = getIndex(_puzzle, number, number * number);
+            int k = i;// đại diện cho i mới
+            int l = j;// đại diện cho j mới
+            if (v == "up")
+            {
+                if (i == number - 1)
+                    return;
+                k = i + 1;
+            }
+            else if (v == "down")
+            {
+                if (i == 0)
+                    return;
+                k = i - 1;
+            }
+            else if (v == "right")
+            {
+                if (j == 0)
+                    return;
+                l = j - 1;
+            }
+            else if (v == "left")
+            {
+                if (j == number - 1)
+                    return;
+                l = j + 1;
+            }
 
+
+
+            var valuechange = _puzzle[k, l];
+            var value = number * number;
+
+            var w = _games.cropWidth;
+            var h = _games.cropHeight;
+
+            
+            Debug.WriteLine($"{listImages[value].Source} - {listImages[valuechange].Source}");
+
+            Canvas.SetLeft(listImages[valuechange], j * (w + 2) + startX);
+            Canvas.SetTop(listImages[valuechange], i * (h + 2) + startY);
+
+            //Tráo trong mảng puzzle
+            (_puzzle[i, j], _puzzle[k, l]) = (_puzzle[k, l], _puzzle[i, j]);
+            //(listImages[value], listImages[valuechange]) = (listImages[valuechange], listImages[value]);
+
+
+            Debug.WriteLine($"{listImages[value].Source} - {listImages[valuechange].Source}");
+            //Debug.WriteLine("puzzle change");
+            //for (int m = 0; m < number; m++)
+            //{
+            //    for (int p = 0; p < number; p++)
+            //    {
+            //        Debug.Write(_puzzle[m, p] + " ");
+            //    }
+            //    Debug.WriteLine("");
+            //}
+        }
+
+        private void MessageWin()
+        {
+            if (checkWin(_puzzle, number))
+            {
+                MessageBox.Show("You Win!");
+                ResetGame();
+                ResetTimer(sec);
+            }
         }
     }
 }
