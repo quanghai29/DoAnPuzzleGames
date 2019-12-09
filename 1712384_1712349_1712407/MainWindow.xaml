@@ -73,7 +73,7 @@
                 </StackPanel>
                 <StackPanel Grid.Column="1" Background="#f6f8fa" Orientation="Vertical">
                     <Label Name="lblTimer" Margin="30,20,10,0" Width="135" Height="45" HorizontalAlignment="Center" FontSize="30" 
-                           Background="Black" Foreground="White" FontWeight="UltraBold"/>
+                           Background="Black" Foreground="White" FontWeight="UltraBold" Visibility="Hidden"/>
                     <Canvas>
                         <Button  Cursor="Hand" x:Name="arrowup" Click="Arrowup_Click" Margin="0,0,5,20" Height="auto" 
                          Background="#f6f8fa" BorderThickness="0,1,1,0" Canvas.Top="90" Canvas.Left="100">

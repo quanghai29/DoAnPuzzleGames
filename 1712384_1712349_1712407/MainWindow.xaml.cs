@@ -48,8 +48,8 @@ namespace _1712384_1712349_1712407
         int startY = 20;
         int sizeWidth = 660;
         int sizeHeight = 660;
-        int sec = 120;//Số giây 
-
+        int sec = 300;//Số giây 
+        int resetSec = 300;
         private void initArray(int n)
         {
             _puzzle = new int[n, n];
@@ -99,7 +99,7 @@ namespace _1712384_1712349_1712407
                 
                 if (timer != null)
                 {
-                    ResetTimer(sec);
+                    ResetTimer(resetSec);
                 }
                 CropImage(Game);
             }
@@ -399,6 +399,8 @@ namespace _1712384_1712349_1712407
                 }
                 //CountDown();
             }
+
+            MessageWin();
         }
 
         private void Window_MouseMove(object sender, MouseEventArgs e)
@@ -445,7 +447,7 @@ namespace _1712384_1712349_1712407
 
                 if (timer != null)
                 {
-                    ResetTimer(21);
+                    ResetTimer(resetSec);
                 }
                 CropImage(Game);
             }
@@ -466,6 +468,7 @@ namespace _1712384_1712349_1712407
             timer.Interval = 1000;
             timer.Elapsed += Timer_Elapsed;
             timer.Start();
+            lblTimer.Visibility = Visibility.Visible;
         }
 
         
@@ -487,6 +490,7 @@ namespace _1712384_1712349_1712407
                 Dispatcher.Invoke(() => ResetGame());
                 
             }
+
         }
 
         /// <summary>
@@ -552,6 +556,7 @@ namespace _1712384_1712349_1712407
             {
                 writetext.WriteLine(number);//số mảnh cắt
                 writetext.WriteLine(_games.Image);//tên ảnh đang chơi
+                writetext.WriteLine(sec.ToString());//lưu lại thời gian hiện tại 
                 for(int i=0;i<number;i++)
                 {
                     for(int j=0;j<number;j++)
@@ -593,6 +598,7 @@ namespace _1712384_1712349_1712407
                     //Lấy dữ liệu từ file save.txt
                     number = int.Parse(readtext.ReadLine());
                     var image = readtext.ReadLine();
+                    var currentSec = int.Parse(readtext.ReadLine());
 
                     for (int i = 0; i < number; i++)
                     {
@@ -637,11 +643,12 @@ namespace _1712384_1712349_1712407
 
                     _games = Game;
                     //Reset lại thời gian
-                    CountDown();
                     if (timer != null)
                     {
-                        ResetTimer(sec);
+                        ResetTimer(currentSec);
                     }
+                    CountDown();
+                    
 
                     //Cắt hình trước
                     //crop Image
@@ -692,21 +699,26 @@ namespace _1712384_1712349_1712407
         private void Arrowup_Click(object sender, RoutedEventArgs e)
         {
             arrow("up");
+            if (checkWin(_puzzle, number))
+                MessageWin();
         }
 
         private void Arrowleft_Click(object sender, RoutedEventArgs e)
         {
             arrow("left");
+            MessageWin();
         }
 
         private void Arrowright_Click(object sender, RoutedEventArgs e)
         {
             arrow("right");
+            MessageWin();
         }
 
         private void Arrowdown_Click(object sender, RoutedEventArgs e)
         {
             arrow("down");
+            MessageWin();
         }
         private void arrow(string v)
         {
@@ -773,6 +785,17 @@ namespace _1712384_1712349_1712407
         {
             var screen = new NottifyDiaglog(noty,animation);
             screen.ShowDialog();
+        }
+        private void MessageWin()
+        {
+            if (checkWin(_puzzle, number))
+            {
+                timer.Stop();
+                timer.Dispose();
+                Dispatcher.Invoke(() => MessageBox.Show(Application.Current.MainWindow, "You win!!!"));
+                Dispatcher.Invoke(() => lblTimer.Content = "00:00:00");
+                Dispatcher.Invoke(() => ResetGame());
+            }
         }
     }
 }
