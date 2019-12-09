@@ -19,6 +19,7 @@ using System.ComponentModel;
 using System.Timers;
 using System.Windows.Media.Animation;
 
+
 namespace _1712384_1712349_1712407
 {
     /// <summary>
@@ -66,34 +67,9 @@ namespace _1712384_1712349_1712407
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            initArray(number);
-            animateBegin();
+            initArray(number);       
         }
-
-        //Tạo hiệu ứng
-        private void animateBegin()
-        {
-            //var path = PathToProject() + "Images/nang1.jpg";
-            //var source = new BitmapImage(
-            //        new Uri(path, UriKind.Absolute));
-            //imageBegingame.Width = 500;
-            //imageBegingame.Height = 400;
-            //imageBegingame.Source = source;
-            //var animation = new DoubleAnimation();
-            //animation.From = 200;
-            //animation.To = 300;
-            //animation.Duration = new Duration(TimeSpan.FromSeconds(1));
-            //animation.AutoReverse = true;
-            //animation.RepeatBehavior = RepeatBehavior.Forever;
-
-
-            //var story = new Storyboard();
-            //story.Children.Add(animation);
-            //Storyboard.SetTargetName(animation, previewImage.Name);
-            //Storyboard.SetTargetProperty(animation, new PropertyPath(Canvas.LeftProperty));
-            //story.Begin(this);
-        }
-
+       
 
 
 
@@ -247,10 +223,14 @@ namespace _1712384_1712349_1712407
                     k = Indexes[r.Next(0, Indexes.Count)];
                     Indexes.Remove(k);
 
-                    table.Children.Add(listImages[k]);
-                    Canvas.SetLeft(listImages[k], j * (w + 2) + startX);
-                    Canvas.SetTop(listImages[k], i * (h + 2) +startY);
+                    
+                    var x = j * (w + 2) + startX;
+                    var y = i * (h + 2) + startY;
 
+                    Canvas.SetLeft(listImages[k],x);
+                    Canvas.SetTop(listImages[k], y);
+
+                    table.Children.Add(listImages[k]);
 
                     _puzzle[i, j] = k;
 
@@ -259,7 +239,7 @@ namespace _1712384_1712349_1712407
                 }
             }
         }
-
+    
 
         /// <summary>
         /// Cắt ảnh
@@ -503,7 +483,7 @@ namespace _1712384_1712349_1712407
             {
                 timer.Stop();
                 timer.Dispose();
-                Dispatcher.Invoke(()=>MessageBox.Show(Application.Current.MainWindow, "You lose!!!"));
+                Dispatcher.Invoke(() => Notify("You lose\n Unfortunately! :( Try again", true));
                 Dispatcher.Invoke(() => ResetGame());
                 
             }
@@ -564,7 +544,7 @@ namespace _1712384_1712349_1712407
         {
             if(_games==null)
             {
-                MessageBox.Show("Please Start a game to save game!");
+                Notify("Please Start a game to save game!",false);
                 return;
             }
             var path = PathToProject() + "save.txt";
@@ -580,8 +560,10 @@ namespace _1712384_1712349_1712407
                     }
                 }
             }
-            MessageBox.Show("Save done");
+            Notify("Save is completed!", false);
         }
+
+       
 
         //Hàm hỗ trợ lấy đường dẫn tuyệt đối
         private string PathToProject()
@@ -679,6 +661,7 @@ namespace _1712384_1712349_1712407
                             cropImage.Tag = new Tuple<int, int>(i, j);
                         }
                     }
+                    Notify("Load game is already", true);
 
                     // Để lại hình theo trật tự cũ
                     for (int i = 0; i < number; i++)
@@ -701,7 +684,7 @@ namespace _1712384_1712349_1712407
             }catch(Exception es)
             {
                 Debug.WriteLine(es.Message);
-                MessageBox.Show("Please save game first");
+                Notify("Please save game first",false);
             }
            
         }
@@ -764,7 +747,7 @@ namespace _1712384_1712349_1712407
             var h = _games.cropHeight;
 
             
-            Debug.WriteLine($"{listImages[value].Source} - {listImages[valuechange].Source}");
+            
 
             Canvas.SetLeft(listImages[valuechange], j * (w + 2) + startX);
             Canvas.SetTop(listImages[valuechange], i * (h + 2) + startY);
@@ -786,6 +769,10 @@ namespace _1712384_1712349_1712407
             //}
         }
 
-
+        private void Notify(string noty,bool animation)
+        {
+            var screen = new NottifyDiaglog(noty,animation);
+            screen.ShowDialog();
+        }
     }
 }

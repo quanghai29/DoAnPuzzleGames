@@ -11,7 +11,8 @@
         FontFamily="Century Gothic"
         Title="Puzzle Games"
         Loaded="Window_Loaded"
-        MouseMove="Window_MouseMove">
+        MouseMove="Window_MouseMove"
+        WindowStartupLocation="CenterOwner">
     <Window.Background>
         <ImageBrush ImageSource="Images/background7.jpg"></ImageBrush>
     </Window.Background>
