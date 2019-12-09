@@ -12,6 +12,9 @@
         Title="Puzzle Games"
         Loaded="Window_Loaded"
         MouseMove="Window_MouseMove">
+    <Window.Background>
+        <ImageBrush ImageSource="Images/background7.jpg"></ImageBrush>
+    </Window.Background>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="8*"/>
@@ -20,7 +23,7 @@
 
         <!-- Khung để chơi game -->
         <Canvas x:Name="table" Panel.ZIndex="0">
-          
+            <Image Name="imageBegingame"/>
         </Canvas>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>

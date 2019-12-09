@@ -17,6 +17,7 @@ using System.IO;
 using Microsoft.Win32;
 using System.ComponentModel;
 using System.Timers;
+using System.Windows.Media.Animation;
 
 namespace _1712384_1712349_1712407
 {
@@ -66,6 +67,31 @@ namespace _1712384_1712349_1712407
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             initArray(number);
+            animateBegin();
+        }
+
+        //Tạo hiệu ứng
+        private void animateBegin()
+        {
+            //var path = PathToProject() + "Images/nang1.jpg";
+            //var source = new BitmapImage(
+            //        new Uri(path, UriKind.Absolute));
+            //imageBegingame.Width = 500;
+            //imageBegingame.Height = 400;
+            //imageBegingame.Source = source;
+            //var animation = new DoubleAnimation();
+            //animation.From = 200;
+            //animation.To = 300;
+            //animation.Duration = new Duration(TimeSpan.FromSeconds(1));
+            //animation.AutoReverse = true;
+            //animation.RepeatBehavior = RepeatBehavior.Forever;
+
+
+            //var story = new Storyboard();
+            //story.Children.Add(animation);
+            //Storyboard.SetTargetName(animation, previewImage.Name);
+            //Storyboard.SetTargetProperty(animation, new PropertyPath(Canvas.LeftProperty));
+            //story.Begin(this);
         }
 
 
@@ -759,5 +785,7 @@ namespace _1712384_1712349_1712407
             //    Debug.WriteLine("");
             //}
         }
+
+
     }
 }
