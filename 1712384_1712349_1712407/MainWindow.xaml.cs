@@ -362,7 +362,7 @@ namespace _1712384_1712349_1712407
             // căn((a2-a1)^2 +(b2-b1)^2))
 
             var denta = Math.Sqrt(Math.Pow((indexY - n), 2) + Math.Pow((indexX - m), 2));
-            if (_puzzle[indexY, indexX] != 9 || denta > 1)
+            if (_puzzle[indexY, indexX] != number*number || denta > 1)
             {
                 x =  (w + 2) * m;
                 y =  (h + 2) * n;
@@ -682,44 +682,82 @@ namespace _1712384_1712349_1712407
 
         private void Arrowup_Click(object sender, RoutedEventArgs e)
         {
-            var value = number * number;
-            var(i,j) = getIndex(_puzzle, number, value);
-
-            if (i >= number - 1)
-                return;
-            var valuedown = _puzzle[i+1, j];
-
-            //Tráo trong mảng puzzle
-            (_puzzle[i, j], _puzzle[i + 1, j]) = (_puzzle[i + 1, j], _puzzle[i, j]);
-
-
-            for (int k = 0; k < number; k++)
-            {
-                for (int p = 0; p < number; p++)
-                {
-                    Debug.Write(_puzzle[k, p] + " ");
-                }
-                Debug.WriteLine("");
-            }
-            var w = _games.cropWidth;
-            var h = _games.cropHeight;
-            Canvas.SetLeft(listImages[valuedown], j * (w + 2) + startX);
-            Canvas.SetTop(listImages[valuedown], i * (h + 2) + startY);
+            arrow("up");
         }
 
         private void Arrowleft_Click(object sender, RoutedEventArgs e)
         {
-
+            arrow("left");
         }
 
         private void Arrowright_Click(object sender, RoutedEventArgs e)
         {
-
+            arrow("right");
         }
 
         private void Arrowdown_Click(object sender, RoutedEventArgs e)
         {
+            arrow("down");
+        }
+        private void arrow(string v)
+        {
+            var (i, j) = getIndex(_puzzle, number, number * number);
+            int k = i;// đại diện cho i mới
+            int l = j;// đại diện cho j mới
+            if (v == "up")
+            {
+                if (i == number - 1)
+                    return;
+                k = i + 1;
+            }
+            else if (v == "down")
+            {
+                if (i == 0)
+                    return;
+                k = i - 1;
+            }
+            else if (v == "right")
+            {
+                if (j == 0)
+                    return;
+                l = j - 1;
+            }
+            else if (v == "left")
+            {
+                if (j == number - 1)
+                    return;
+                l = j + 1;
+            }
 
+
+
+            var valuechange = _puzzle[k, l];
+            var value = number * number;
+
+            var w = _games.cropWidth;
+            var h = _games.cropHeight;
+
+            
+            Debug.WriteLine($"{listImages[value].Source} - {listImages[valuechange].Source}");
+
+            Canvas.SetLeft(listImages[valuechange], j * (w + 2) + startX);
+            Canvas.SetTop(listImages[valuechange], i * (h + 2) + startY);
+
+            //Tráo trong mảng puzzle
+            (_puzzle[i, j], _puzzle[k, l]) = (_puzzle[k, l], _puzzle[i, j]);
+            //(listImages[value], listImages[valuechange]) = (listImages[valuechange], listImages[value]);
+
+
+            Debug.WriteLine($"{listImages[value].Source} - {listImages[valuechange].Source}");
+            //Debug.WriteLine("puzzle change");
+            //for (int m = 0; m < number; m++)
+            //{
+            //    for (int p = 0; p < number; p++)
+            //    {
+            //        Debug.Write(_puzzle[m, p] + " ");
+            //    }
+            //    Debug.WriteLine("");
+            //}
         }
     }
 }
