@@ -6,10 +6,9 @@
         xmlns:local="clr-namespace:_1712384_1712349_1712407"
         mc:Ignorable="d"
         WindowState="Maximized"
-        WindowStyle="SingleBorderWindow"
+        WindowStyle="None"
         FontSize="15"
         FontFamily="Century Gothic"
-        Title="Puzzle Games"
         Loaded="Window_Loaded"
         MouseMove="Window_MouseMove"
         WindowStartupLocation="CenterOwner">
@@ -68,12 +67,25 @@
                                 <DropShadowEffect BlurRadius="5" ShadowDepth="1"/>
                             </Button.Effect>
                         </Button>
-                        
+                        <Button Name="Exit" Click="Exit_Click"  Content="Exit Game" Cursor="Hand" Margin="10,7,0,0" Height="40" 
+                         Background="#a777e3" BorderThickness="0,1,1,0" Foreground="White" FontSize="20" FontWeight="Light">
+                            <Button.Effect>
+                                <DropShadowEffect BlurRadius="5" ShadowDepth="1"/>
+                            </Button.Effect>
+                        </Button>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Background="#f6f8fa" Orientation="Vertical">
                     <Label Name="lblTimer" Margin="30,20,10,0" Width="135" Height="45" HorizontalAlignment="Center" FontSize="30" 
                            Background="Black" Foreground="White" FontWeight="UltraBold" Visibility="Hidden"/>
+                    <StackPanel Orientation="Horizontal" Margin="5,20,0,0">
+                        <RadioButton GroupName="Level" x:Name="Easy" Click="Easy_Click" Content="Easy" IsChecked="True"
+                                     Foreground="#3498db" Margin="0,0,5,0"/>
+                        <RadioButton GroupName="Level" x:Name="Medium" Click="Medium_Click" Content="Medium" 
+                                     FontWeight="DemiBold" Foreground="#f1c40f" Margin="0,0,5,0"/>
+                        <RadioButton GroupName="Level" x:Name="Hard" Click="Hard_Click"
+                                   Content="Hard" FontWeight="Heavy" Foreground="#DA4F49"/>
+                    </StackPanel>
                     <Canvas>
                         <Button  Cursor="Hand" x:Name="arrowup" Click="Arrowup_Click" Margin="0,0,5,20" Height="auto" 
                          Background="#f6f8fa" BorderThickness="0,1,1,0" Canvas.Top="90" Canvas.Left="100">

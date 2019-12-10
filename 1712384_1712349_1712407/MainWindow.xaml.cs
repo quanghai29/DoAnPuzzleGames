@@ -48,7 +48,7 @@ namespace _1712384_1712349_1712407
         int startY = 20;
         int sizeWidth = 660;
         int sizeHeight = 660;
-        int sec = 300;//Số giây 
+        int sec = 4;//Số giây 
         int resetSec = 300;
         private void initArray(int n)
         {
@@ -71,8 +71,6 @@ namespace _1712384_1712349_1712407
         }
        
 
-
-
         /// <summary>
         /// Mở hộp thoại dialog để chọn ảnh trên máy tính người chơi
         /// Gọi hàm CropImage để cắt ảnh
@@ -81,9 +79,11 @@ namespace _1712384_1712349_1712407
         /// <param name="e"></param>
         private void Play_Click(object sender, RoutedEventArgs e)
         {
+          
             var screen = new OpenFileDialog();
             if (screen.ShowDialog() == true)
             {
+                _games = null;
                 var Game = new playImage()
                 {
                     Source = new BitmapImage(),
@@ -95,7 +95,7 @@ namespace _1712384_1712349_1712407
                 Game.Source.DecodePixelWidth = sizeHeight;
                 Game.Source.UriSource = new Uri(screen.FileName, UriKind.Absolute);
                 Game.Source.EndInit();
-
+                _games = Game;
                 
                 if (timer != null)
                 {
@@ -429,9 +429,11 @@ namespace _1712384_1712349_1712407
         /// <param name="e"></param>
         private void Select_Click(object sender, RoutedEventArgs e)
         {
+            
             var screen = new SelectDialog();
             if (screen.ShowDialog() == true)
             {
+                _games = null;
                 var Game = new playImage()
                 {
                     Source = new BitmapImage(),
@@ -445,6 +447,7 @@ namespace _1712384_1712349_1712407
                 Game.Source.UriSource = new Uri(screen.SourceData, UriKind.Absolute);
                 Game.Source.EndInit();
 
+                _games = Game;
                 if (timer != null)
                 {
                     ResetTimer(resetSec);
@@ -488,7 +491,7 @@ namespace _1712384_1712349_1712407
                 timer.Dispose();
                 Dispatcher.Invoke(() => Notify("You lose\n Unfortunately! :( Try again", true));
                 Dispatcher.Invoke(() => ResetGame());
-                
+                _games = null;
             }
 
         }
@@ -541,6 +544,7 @@ namespace _1712384_1712349_1712407
         {
             table.Children.Clear();
             listImages.Clear();
+            _games = null;
         }
 
         //Lưu lại game
@@ -792,10 +796,33 @@ namespace _1712384_1712349_1712407
             {
                 timer.Stop();
                 timer.Dispose();
-                Dispatcher.Invoke(() => MessageBox.Show(Application.Current.MainWindow, "You win!!!"));
+                Dispatcher.Invoke(() => Notify("Congratulation! You win",true));
                 Dispatcher.Invoke(() => lblTimer.Content = "00:00:00");
                 Dispatcher.Invoke(() => ResetGame());
             }
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Easy_Click(object sender, RoutedEventArgs e)
+        {
+            number = 3;
+           
+        }
+
+        private void Medium_Click(object sender, RoutedEventArgs e)
+        {
+            number = 4;
+            
+        }
+
+        private void Hard_Click(object sender, RoutedEventArgs e)
+        {
+            number = 5;
+            
         }
     }
 }
