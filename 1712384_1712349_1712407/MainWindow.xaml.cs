@@ -67,7 +67,7 @@ namespace _1712384_1712349_1712407
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            initArray(number);       
+                  
         }
        
 
@@ -215,7 +215,7 @@ namespace _1712384_1712349_1712407
 
             Random r = new Random();
 
-            int k = 0;
+            int k;
             for (int i = 0; i < num; i++)
             {
                 for (int j = 0; j < num; j++)
@@ -810,19 +810,21 @@ namespace _1712384_1712349_1712407
         private void Easy_Click(object sender, RoutedEventArgs e)
         {
             number = 3;
-           
+            initArray(number);
         }
 
         private void Medium_Click(object sender, RoutedEventArgs e)
         {
             number = 4;
-            
+            initArray(number);
+
         }
 
         private void Hard_Click(object sender, RoutedEventArgs e)
         {
             number = 5;
-            
+            initArray(number);
+
         }
     }
 }
