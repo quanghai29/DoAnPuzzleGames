@@ -1,12 +1,19 @@
-3
-F:\KHTN\Programming Windows\PuzzleGame\1712384_1712349_1712407\Images\nang3.gif
+4
+F:\KHTN\Programming Windows\PuzzleGame\1712384_1712349_1712407\Images\nangthoxuhue.jpg
+494
+5
+14
+8
+6
 0
 4
-3
-0
-1
+13
+12
 9
-6
+11
+16
+10
+1
 2
-5
+3
 7

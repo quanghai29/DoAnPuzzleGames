@@ -41,14 +41,11 @@ namespace _1712384_1712349_1712407
         int number = 3;// Biến lưu cái số lượng mảnh cắt ra
         int[,] _puzzle;
         int[,] win;
-        //int[,] win = {{0, 1, 2},
-        //                {3, 4, 5},
-        //                {6, 7, 9}};
         int startX = 50;
         int startY = 20;
         int sizeWidth = 660;
         int sizeHeight = 660;
-        int sec = 4;//Số giây 
+        int sec = 300;//Số giây 
         int resetSec = 300;
         private void initArray(int n)
         {
@@ -79,11 +76,13 @@ namespace _1712384_1712349_1712407
         /// <param name="e"></param>
         private void Play_Click(object sender, RoutedEventArgs e)
         {
-          
+            
             var screen = new OpenFileDialog();
             if (screen.ShowDialog() == true)
             {
                 _games = null;
+                initArray(number);
+                setTimeLevel();
                 var Game = new playImage()
                 {
                     Source = new BitmapImage(),
@@ -104,6 +103,8 @@ namespace _1712384_1712349_1712407
                 CropImage(Game);
             }
         }
+
+       
 
         private int countSmallerNumber(int[,] a, int n, int x, int y)
         {      
@@ -434,6 +435,8 @@ namespace _1712384_1712349_1712407
             if (screen.ShowDialog() == true)
             {
                 _games = null;
+                initArray(number);
+                setTimeLevel();
                 var Game = new playImage()
                 {
                     Source = new BitmapImage(),
@@ -540,6 +543,27 @@ namespace _1712384_1712349_1712407
             sec = resetSec;
         }
 
+        //xét thời gian cho từng level
+        private void setTimeLevel()
+        {
+            if(number==3)
+            {
+                sec = 300;
+                resetSec = 300;
+            }
+            else if(number==4)
+            {
+                sec = 500;
+                resetSec = 500;
+            }
+            else if(number==5)
+            {
+                sec = 700;
+                resetSec = 700;
+            }
+                
+        }
+
         private void ResetGame()
         {
             table.Children.Clear();
@@ -558,6 +582,7 @@ namespace _1712384_1712349_1712407
             var path = PathToProject() + "save.txt";
             using (StreamWriter writetext = new StreamWriter(path))
             {
+               
                 writetext.WriteLine(number);//số mảnh cắt
                 writetext.WriteLine(_games.Image);//tên ảnh đang chơi
                 writetext.WriteLine(sec.ToString());//lưu lại thời gian hiện tại 
@@ -599,7 +624,9 @@ namespace _1712384_1712349_1712407
                 {
                     if (readtext == null)
                         return;
+                    
                     //Lấy dữ liệu từ file save.txt
+                    
                     number = int.Parse(readtext.ReadLine());
                     var image = readtext.ReadLine();
                     var currentSec = int.Parse(readtext.ReadLine());
@@ -700,6 +727,7 @@ namespace _1712384_1712349_1712407
            
         }
 
+        //4 button hỗ trợ cho bốn mũi tên
         private void Arrowup_Click(object sender, RoutedEventArgs e)
         {
             arrow("up");
@@ -770,21 +798,10 @@ namespace _1712384_1712349_1712407
 
             //Tráo trong mảng puzzle
             (_puzzle[i, j], _puzzle[k, l]) = (_puzzle[k, l], _puzzle[i, j]);
-            //(listImages[value], listImages[valuechange]) = (listImages[valuechange], listImages[value]);
-
-
-            Debug.WriteLine($"{listImages[value].Source} - {listImages[valuechange].Source}");
-            //Debug.WriteLine("puzzle change");
-            //for (int m = 0; m < number; m++)
-            //{
-            //    for (int p = 0; p < number; p++)
-            //    {
-            //        Debug.Write(_puzzle[m, p] + " ");
-            //    }
-            //    Debug.WriteLine("");
-            //}
+            
         }
 
+        //Hàm hỗ trợ gọi messagebox viết sẵn
         private void Notify(string noty,bool animation)
         {
             var screen = new NottifyDiaglog(noty,animation);
@@ -802,29 +819,26 @@ namespace _1712384_1712349_1712407
             }
         }
 
+        //button exit game
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
+        //Ba nút thể hiện mức độ chơi 
         private void Easy_Click(object sender, RoutedEventArgs e)
         {
             number = 3;
-            initArray(number);
         }
 
         private void Medium_Click(object sender, RoutedEventArgs e)
         {
-            number = 4;
-            initArray(number);
-
+            number = 4;   
         }
 
         private void Hard_Click(object sender, RoutedEventArgs e)
         {
             number = 5;
-            initArray(number);
-
         }
     }
 }
