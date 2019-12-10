@@ -248,7 +248,8 @@ namespace _1712384_1712349_1712407
         /// <param name="image"></param>
         private void CropImage(playImage image)
         {
-                _games = image;
+            initArray(number);
+            _games = image;
 
                 int num = image.numCut;
                 int w = image.cropWidth;
