@@ -27,3 +27,13 @@
 - Kĩ thuật sử dụng trong đồ án:
   + Xáo hình: không sử dụng random bước đi nhiều lần mà sử dụng thuật toán kiểm tra xáo hình có thể chuyển về vị trí ban đầu hay không: https://yinyangit.wordpress.com/2010/12/11/algorithm-tim-hi%E1%BB%83u-v%E1%BB%81-bai-toan-n-puzzle-updated/
   + Tạo một mảng 1 chiều lưu thứ tự ô và random không trùng bằng cách sau mỗi lần random remove phần tử đó khỏi mảng.
+  + Phân chia lớp có lớp cha ImageOperations, lớp con playgame
+  + Giao diện dễ nhìn background bao đẹp, full màn hình, button dễ hiểu 
+  + Viết riêng một dialog báo cáo, có animation dễ dàng dùng được với hàm Notify(string name, bool animation) , người dùng chỉ
+  cần điền câu thông báo , nếu muốn có chuyển động thì điền true, ngược lại điền false
+  + Snap hình để khi kéo thả không bị lệch bên ngoài, dùng công thức tính khoảng cách giữa hai điểm để không bị kéo theo đường chéo 
+  + Phân chia màn hình Select Image vơi màn hình chính
+  + Truyền dữ liệu từ màn hình Select Image sang màn hình chính
+  + Xử lý đường dẫn đến thư mục Image, đến file *.txt
+  + Sử dụng lớp Timer và Dispatcher để tạo Countdown cho game
+
