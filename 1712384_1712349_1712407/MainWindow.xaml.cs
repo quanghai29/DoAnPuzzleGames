@@ -247,7 +247,8 @@ namespace _1712384_1712349_1712407
         /// <param name="image"></param>
         private void CropImage(playImage image)
         {
-                _games = image;
+            initArray(number);
+            _games = image;
 
                 int num = image.numCut;
                 int w = image.cropWidth;
@@ -810,20 +811,20 @@ namespace _1712384_1712349_1712407
         private void Easy_Click(object sender, RoutedEventArgs e)
         {
             number = 3;
-            initArray(number);
+            
         }
 
         private void Medium_Click(object sender, RoutedEventArgs e)
         {
             number = 4;
-            initArray(number);
+     
 
         }
 
         private void Hard_Click(object sender, RoutedEventArgs e)
         {
             number = 5;
-            initArray(number);
+
 
         }
     }
