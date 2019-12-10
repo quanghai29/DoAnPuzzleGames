@@ -11,7 +11,7 @@
  	chọn chế độ chơi (dễ : 3x3, trung bình 4x4, khó 5x5) => sử dụng chuyền dữ liệu giữa hai màn hình
 	tính điểm người dùng (nếu được)
 
-- Hoạt động : Ban đầu người dùng vào chọn ảnh ở select để chơi , ảnh sau đó được cắt ra và xáo trộn (mặc định ở chế độ 4x4)
+- Hoạt động : Ban đầu người dùng vào chọn ảnh ở select để chơi , ảnh sau đó được cắt ra và xáo trộn (mặc định ở chế độ 3x3)
   sau đó người dùng nhấn nút play và bắt đầu chơi , đồng hồ chạy , người dùng có thể chọn chế độ chơi 
  đang chơi người dùng có thể reset lại nếu bí đường 
  đang chơi người dùng cũng có thể đổi chơi hình khác , hệ thống sẽ hỏi người dùng muốn lưu game hay không
